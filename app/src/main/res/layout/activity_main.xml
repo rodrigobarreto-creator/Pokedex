@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/fondo1"
+    tools:context=".MainActivity">
+
+    <!-- LOGO SUPERIOR -->
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="60dp"
+        android:src="@drawable/logo1"
+        android:contentDescription="@string/app_name"
+        android:adjustViewBounds="true" />
+
+    <!-- BOTÓN ENCICLOPEDIA (grande, centrado) -->
+    <Button
+        android:id="@+id/btnEnciclopedia"
+        android:layout_width="250dp"
+        android:layout_height="80dp"
+        android:layout_below="@id/logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="40dp"
+        android:text="Enciclopedia"
+        android:textSize="20sp"
+        android:backgroundTint="#FF0000"
+        android:textColor="#FFFFFF"
+        android:fontFamily="sans-serif-medium"
+        android:elevation="6dp" />
+
+    <!-- BOTÓN SCANNER (izquierda) -->
+    <Button
+        android:id="@+id/btnScanner"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/btnEnciclopedia"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="60dp"
+        android:text="Scanner"
+        android:textSize="16sp"
+        android:backgroundTint="#1976D2"
+        android:textColor="#FFFFFF"
+        android:elevation="5dp" />
+
+    <!-- BOTÓN POKEDDLE (derecha) -->
+    <Button
+        android:id="@+id/btnPokeddle"
+        android:layout_width="150dp"
+        android:layout_height="70dp"
+        android:layout_below="@id/btnEnciclopedia"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="40dp"
+        android:layout_marginTop="60dp"
+        android:text="Pokeddle"
+        android:textSize="16sp"
+        android:backgroundTint="#388E3C"
+        android:textColor="#FFFFFF"
+        android:elevation="5dp" />
+
+</RelativeLayout>

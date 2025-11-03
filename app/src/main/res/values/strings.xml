@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Interfaz prueba</string>
+    <string name="pokemon_image">Imagen del Pokémon</string>
 </resources>

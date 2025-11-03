@@ -1,0 +1,168 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:padding="8dp">
+
+    <!-- Botón retroceso -->
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_back" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/btn_back"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <!-- Nombre y número -->
+            <TextView
+                android:id="@+id/textNameNumber"
+                android:textColor="@android:color/white"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cargando..." />
+
+            <!-- Imagen oficial -->
+            <ImageView
+                android:id="@+id/imagePokemon"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:layout_gravity="center"
+                android:contentDescription="Imagen Pokémon" />
+
+            <!-- Tipos -->
+            <TextView
+                android:id="@+id/textTypes"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tipos: ..." />
+
+            <!-- Descripción -->
+            <TextView
+                android:id="@+id/textDescription"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Descripción: ..." />
+
+            <!-- Altura / Peso -->
+            <TextView
+                android:id="@+id/textHeightWeight"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Altura/Peso: ..." />
+
+            <!-- Habilidades -->
+            <TextView
+                android:id="@+id/textAbilities"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Habilidades: ..." />
+
+            <!-- Stats -->
+            <LinearLayout
+                android:id="@+id/statsContainer"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp" />
+
+            <!-- Evoluciones -->
+            <TextView
+                android:id="@+id/textEvolutions"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Evoluciones:" />
+
+            <!-- Contenedor horizontal para sprites de la línea evolutiva -->
+            <LinearLayout
+                android:id="@+id/evolutionsContainer"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="8dp"
+                android:padding="4dp" />
+
+            <!-- Mega Pokémon -->
+            <LinearLayout
+                android:id="@+id/megaContainer"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="gone"
+                android:layout_marginTop="8dp"
+                android:padding="8dp"
+                android:background="#222222">
+
+                <TextView
+                    android:id="@+id/textMegaTitle"
+                    android:text="Mega:"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+
+                <ImageView
+                    android:id="@+id/imageMega"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center"
+                    android:contentDescription="Mega Pokémon" />
+
+                <TextView
+                    android:id="@+id/textMegaAbilities"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Habilidades: ..." />
+
+                <LinearLayout
+                    android:id="@+id/megaStatsContainer"
+                    android:orientation="vertical"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" />
+
+            </LinearLayout>
+
+            <!-- Movimientos -->
+            <TextView
+                android:id="@+id/textMoves"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:text="Movimientos: ..." />
+
+        </LinearLayout>
+    </ScrollView>
+
+</RelativeLayout>

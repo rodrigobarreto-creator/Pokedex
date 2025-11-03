@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/pokedex_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black"
+    android:padding="8dp"
+    tools:context=".PokedexActivity">
+
+    <!-- Botón regresar -->
+    <ImageButton
+        android:id="@+id/btn_back"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_back"/>
+
+    <!-- Botón escáner -->
+    <ImageButton
+        android:id="@+id/btn_scanner"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_scanner"/>
+
+    <!-- Barra de búsqueda -->
+    <EditText
+        android:id="@+id/search_bar"
+        android:layout_width="350dp"
+        android:layout_height="48dp"
+        android:layout_below="@id/btn_back"
+        android:layout_marginTop="8dp"
+        android:hint="Buscar Pokémon"
+        android:paddingStart="40dp"
+        android:paddingEnd="5dp"
+        android:background="@android:color/white"
+        android:drawableEnd="@drawable/ic_lupa"
+        android:singleLine="true"/>
+
+    <!-- Botón filtro -->
+    <ImageButton
+        android:id="@+id/btn_filter"
+        android:layout_width="36dp"
+        android:layout_height="36dp"
+        android:layout_alignTop="@id/search_bar"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="4dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:src="@drawable/ic_filter"/>
+
+    <!-- RecyclerView para lista de Pokémon -->
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/search_bar"
+        android:layout_marginTop="8dp"
+        tools:listitem="@layout/item_pokemon"/>
+</RelativeLayout>

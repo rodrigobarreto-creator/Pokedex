@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.interfazprueba.scanner.ScannerActivity;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -30,7 +31,6 @@ public class PokedexActivity extends AppCompatActivity {
     private List<PokemonFull> pokemonList = new ArrayList<>();
     private List<PokemonFull> displayedList = new ArrayList<>();
 
-    // Lista de tipos disponibles (puedes ampliar)
     private final String[] types = {"normal", "fighting", "flying", "poison", "ground",
             "rock", "bug", "ghost", "steel", "fire", "water", "grass",
             "electric", "psychic", "ice", "dragon", "dark", "fairy"};
@@ -46,7 +46,6 @@ public class PokedexActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         adapter = new PokemonAdapter(this, displayedList);
 
-        // 🔹 Abrir detalle de Pokémon al hacer clic
         adapter.setOnItemClickListener(pokemon -> {
             Intent intent = new Intent(PokedexActivity.this, PokemonDetailActivity.class);
             intent.putExtra("pokemonName", pokemon.getName());
@@ -55,15 +54,18 @@ public class PokedexActivity extends AppCompatActivity {
 
         recyclerView.setAdapter(adapter);
 
-        // 🔹 Botones y barra de búsqueda
         ImageButton btnBack = findViewById(R.id.btn_back);
         ImageButton btnScanner = findViewById(R.id.btn_scanner);
         ImageButton btnFilter = findViewById(R.id.btn_filter);
         EditText searchBar = findViewById(R.id.search_bar);
 
         btnBack.setOnClickListener(v -> finish());
-        btnScanner.setOnClickListener(v ->
-                Toast.makeText(this, "Función escáner aún no implementada", Toast.LENGTH_SHORT).show());
+
+        // 🔹 NUEVO: abrir el escáner
+        btnScanner.setOnClickListener(v -> {
+            Intent intent = new Intent(PokedexActivity.this, ScannerActivity.class);
+            startActivity(intent);
+        });
 
         btnFilter.setOnClickListener(v -> showFilterDialog());
 
@@ -78,7 +80,6 @@ public class PokedexActivity extends AppCompatActivity {
         loadPokemonList();
     }
 
-    // 🔹 Diálogo de filtros
     private void showFilterDialog() {
         boolean[] checked = new boolean[types.length];
         for (int i = 0; i < types.length; i++) {
@@ -114,7 +115,6 @@ public class PokedexActivity extends AppCompatActivity {
         }
     }
 
-    // 🔹 Cargar lista base
     private void loadPokemonList() {
         PokeApiService.getApi().getPokemonList().enqueue(new Callback<JsonObject>() {
             @Override
@@ -135,7 +135,6 @@ public class PokedexActivity extends AppCompatActivity {
         });
     }
 
-    // 🔹 Cargar detalles de cada Pokémon
     private void loadPokemonDetail(String name) {
         PokeApiService.getApi().getPokemon(name).enqueue(new Callback<JsonObject>() {
             @Override
@@ -146,7 +145,6 @@ public class PokedexActivity extends AppCompatActivity {
                     pokemon.setName(p.get("name").getAsString());
                     pokemon.setNumber(p.get("id").getAsInt());
 
-                    // Tipos
                     List<String> typesList = new ArrayList<>();
                     JsonArray typeArray = p.getAsJsonArray("types");
                     for (int j = 0; j < typeArray.size(); j++) {
@@ -156,14 +154,12 @@ public class PokedexActivity extends AppCompatActivity {
                     }
                     pokemon.setTypes(typesList);
 
-                    // Imagen
                     String img = p.getAsJsonObject("sprites")
                             .getAsJsonObject("other")
                             .getAsJsonObject("official-artwork")
                             .get("front_default").getAsString();
                     pokemon.setImageUrl(img);
 
-                    // Insertar en orden por número
                     int left = 0, right = pokemonList.size();
                     while (left < right) {
                         int mid = (left + right) / 2;
@@ -188,7 +184,6 @@ public class PokedexActivity extends AppCompatActivity {
         });
     }
 
-    // 🔹 Filtrar por texto
     private void filterPokemon(String query) {
         displayedList.clear();
         for (PokemonFull p : pokemonList) {

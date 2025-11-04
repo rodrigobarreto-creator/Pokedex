@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#1A1A1A">
+
+    <!-- Vista de cámara -->
+    <androidx.camera.view.PreviewView
+        android:id="@+id/previewView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <!-- Vista previa de imagen capturada -->
+    <ImageView
+        android:id="@+id/imagePreview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+
+    <!-- Texto de instrucciones -->
+    <TextView
+        android:id="@+id/textInstructions"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/textResult"
+        android:text="Consejos: buena iluminación, Pokémon centrado, fondo simple"
+        android:textColor="#FFFFFF"
+        android:textSize="14sp"
+        android:gravity="center"
+        android:padding="8dp"
+        android:background="#80000000"
+        android:visibility="visible" />
+
+    <!-- Texto de resultado -->
+    <TextView
+        android:id="@+id/textResult"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_above="@+id/btnCapture"
+        android:text="¡Apunta a un Pokémon!"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:padding="16dp"
+        android:background="#80000000"
+        android:visibility="visible" />
+
+    <!-- Capa de carga -->
+    <View
+        android:id="@+id/loadingOverlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="gone" />
+
+    <!-- Indicador de progreso -->
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:indeterminate="true"
+        android:indeterminateTint="#FFFFFF"
+        android:visibility="gone" />
+
+    <!-- Botón de captura -->
+    <Button
+        android:id="@+id/btnCapture"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="30dp"
+        android:background="@drawable/btn_capture_shape"
+        android:text=""
+        android:textSize="14sp" />
+
+    <!-- Botón de galería -->
+    <Button
+        android:id="@+id/btnGallery"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toLeftOf="@+id/btnCapture"
+        android:layout_alignTop="@+id/btnCapture"
+        android:layout_marginRight="20dp"
+        android:background="@drawable/btn_gallery_shape"
+        android:text="GAL"
+        android:textSize="12sp" />
+
+    <!-- Botón de volver -->
+    <Button
+        android:id="@+id/btnBack"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_toRightOf="@+id/btnCapture"
+        android:layout_alignTop="@+id/btnCapture"
+        android:layout_marginLeft="20dp"
+        android:background="@drawable/btn_back_shape"
+        android:text="←"
+        android:textSize="16sp" />
+
+</RelativeLayout>

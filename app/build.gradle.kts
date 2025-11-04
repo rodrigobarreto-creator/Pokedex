@@ -60,4 +60,17 @@ dependencies {
     // Room (si lo necesitas)
     implementation("androidx.room:room-runtime:2.6.1")
     annotationProcessor("androidx.room:room-compiler:2.6.1")
+
+    // CameraX
+    val cameraVersion = "1.3.0"
+    implementation("androidx.camera:camera-core:$cameraVersion")
+    implementation("androidx.camera:camera-camera2:$cameraVersion")
+    implementation("androidx.camera:camera-lifecycle:$cameraVersion")
+    implementation("androidx.camera:camera-view:$cameraVersion")
+
+    // OkHttp (para conexión con la API del modelo)
+    implementation("com.squareup.okhttp3:okhttp:4.11.0")
+
+    // Guava (requerido por CameraX para ListenableFuture)
+    implementation("com.google.guava:guava:32.1.2-android")
 }

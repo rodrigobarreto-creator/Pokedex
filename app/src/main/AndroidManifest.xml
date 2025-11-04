@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
-    <uses-permission android:name="android.permission.INTERNET"/>
+
+    <!-- Permisos requeridos para el escáner -->
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -12,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.InterfazPrueba">
 
+        <!-- Actividad principal -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -21,13 +27,20 @@
             </intent-filter>
         </activity>
 
-        <!-- Agrega esto para la Pokédex -->
+        <!-- Pokédex -->
         <activity android:name=".PokedexActivity" />
         <activity android:name=".PokemonDetailActivity" />
 
-        <!-- ¡NUEVO! Agregar estas actividades para el juego -->
+        <!-- Juego -->
         <activity android:name=".GameActivity" />
         <activity android:name=".ResultActivity" />
-    </application>
 
+        <!-- Escáner (nueva integración) -->
+        <activity
+            android:name=".scanner.ScannerActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+    </application>
 </manifest>

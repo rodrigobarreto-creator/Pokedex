@@ -4,8 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-
 import androidx.appcompat.app.AppCompatActivity;
+import com.example.interfazprueba.scanner.ScannerActivity; // ← Import actualizado
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,12 +18,12 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Referencia a los botones
+        // Referencias a los botones
         btnEnciclopedia = findViewById(R.id.btnEnciclopedia);
         btnPokeddle = findViewById(R.id.btnPokeddle);
         btnScanner = findViewById(R.id.btnScanner);
 
-        // Listener para abrir PokedexActivity
+        // Abrir enciclopedia (PokedexActivity)
         btnEnciclopedia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Listener para abrir GameActivity (Pokeddle) - ¡DIRECTO AL JUEGO!
+        // Abrir el juego (Pokeddle)
         btnPokeddle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,11 +41,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Listener para el botón Scanner
+        // Abrir el escáner (ScannerActivity)
         btnScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                android.widget.Toast.makeText(MainActivity.this, "Función escáner próximamente", android.widget.Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, ScannerActivity.class);
+                startActivity(intent);
             }
         });
     }

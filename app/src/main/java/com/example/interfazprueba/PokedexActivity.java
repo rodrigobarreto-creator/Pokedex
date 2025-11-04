@@ -11,7 +11,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.interfazprueba.model.PokemonFull;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 

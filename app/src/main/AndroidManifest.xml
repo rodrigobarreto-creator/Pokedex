@@ -24,6 +24,10 @@
         <!-- Agrega esto para la Pokédex -->
         <activity android:name=".PokedexActivity" />
         <activity android:name=".PokemonDetailActivity" />
+
+        <!-- ¡NUEVO! Agregar estas actividades para el juego -->
+        <activity android:name=".GameActivity" />
+        <activity android:name=".ResultActivity" />
     </application>
 
 </manifest>

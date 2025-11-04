@@ -1,4 +1,4 @@
-package com.example.interfazprueba.model;
+package com.example.interfazprueba;
 
 import java.io.Serializable;
 import java.util.ArrayList;

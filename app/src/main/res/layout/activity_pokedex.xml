@@ -31,7 +31,8 @@
     <!-- Barra de búsqueda -->
     <EditText
         android:id="@+id/search_bar"
-        android:layout_width="350dp"
+        android:layout_width="match_parent"
+        android:layout_marginRight="50dp"
         android:layout_height="48dp"
         android:layout_below="@id/btn_back"
         android:layout_marginTop="8dp"

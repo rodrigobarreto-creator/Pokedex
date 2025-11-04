@@ -1,4 +1,4 @@
-package com.example.interfazprueba.model;
+package com.example.interfazprueba;
 
 import com.google.gson.annotations.SerializedName;
 import java.util.List;

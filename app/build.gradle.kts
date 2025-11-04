@@ -38,6 +38,9 @@ dependencies {
     implementation(libs.activity)
     implementation(libs.constraintlayout)
 
+    // ¡AGREGAR ESTA DEPENDENCIA PARA EL JUEGO!
+    implementation("androidx.gridlayout:gridlayout:1.0.0")
+
     // Testing
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)

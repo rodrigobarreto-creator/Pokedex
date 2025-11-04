@@ -1,5 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <!-- Colores existentes de tu app -->
+
+    <!-- ¡AGREGAR ESTOS COLORES PARA EL JUEGO! -->
+    <color name="pokemon_red">#FF0000</color>
+    <color name="pokemon_blue">#3B4CCA</color>
+    <color name="pokemon_yellow">#FFDE00</color>
+
+    <!-- Colores para el juego -->
+    <color name="correct_position">#81C784</color>      <!-- Verde más claro -->
+    <color name="wrong_letter">#E57373</color>          <!-- Rojo más claro -->
+    <color name="background_dark">#2E2E2E</color>
+
+    <!-- Colores para tipos de Pokémon -->
+    <color name="type_electric">#FFEB3B</color>      <!-- Amarillo eléctrico -->
+    <color name="type_fire">#FF5722</color>           <!-- Rojo fuego -->
+    <color name="type_water">#2196F3</color>          <!-- Azul agua -->
+    <color name="type_grass">#4CAF50</color>          <!-- Verde planta -->
+    <color name="type_normal">#9E9E9E</color>         <!-- Gris normal -->
+    <color name="type_psychic">#E91E63</color>        <!-- Rosa psíquico -->
+    <color name="type_fighting">#795548</color>       <!-- Marrón lucha -->
+    <color name="type_dragon">#673AB7</color>         <!-- Púrpura dragón -->
+    <color name="type_ghost">#7B1FA2</color>          <!-- Morado fantasma -->
+    <color name="type_rock">#795548</color>           <!-- Marrón roca -->
+    <color name="type_steel">#607D8B</color>          <!-- Gris acero -->
+    <color name="type_flying">#90CAF9</color>        <!-- Azul claro volador -->
+    <color name="type_ground">#8D6E63</color>        <!-- Marrón tierra -->
+    <color name="type_dark">#5D4037</color>          <!-- Marrón oscuro siniestro -->
+    <color name="type_fairy">#F48FB1</color>         <!-- Rosa claro hada -->
+
+    <!-- Colores nuevos para los cambios -->
+    <color name="light_blue">#4FC3F7</color> <!-- Azul claro -->
+    <color name="light_red">#FF5252</color> <!-- Rojo más claro -->
+    <color name="dark_light_blue">#29B6F6</color> <!-- Azul claro oscuro para hover -->
 </resources>

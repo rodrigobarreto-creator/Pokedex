@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/black">
+
+    <!-- Imagen de fondo principal -->
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:alpha="0.2"
+        android:src="@drawable/pokemon_logo" />
+
+    <!-- Botón Volver SIN FONDO -->
+    <Button
+        android:id="@+id/backButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentStart="true"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
+        android:text="← Volver"
+        android:textColor="@android:color/white"
+        android:background="@android:color/transparent"
+        android:padding="12dp"
+        android:textSize="14sp" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <!-- Header -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="15dp"
+            android:layout_marginTop="8dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pokéddle"
+                android:textColor="@color/pokemon_yellow"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:shadowColor="@android:color/black"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="4" />
+
+            <TextView
+                android:id="@+id/attemptsTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0/10"
+                android:textColor="@android:color/white"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                android:background="@color/pokemon_red"
+                android:padding="12dp"
+                android:gravity="center" />
+
+        </LinearLayout>
+
+        <!-- Pista -->
+        <TextView
+            android:id="@+id/hintTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textColor="@color/pokemon_yellow"
+            android:textSize="14sp"
+            android:background="@color/pokemon_red"
+            android:padding="12dp"
+            android:layout_marginBottom="15dp"
+            android:visibility="gone"
+            android:gravity="center"
+            android:textStyle="italic" />
+
+        <!-- Grid Container con imágenes alrededor -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:background="@drawable/card_red_rounded"
+            android:padding="15dp"
+            android:orientation="vertical"
+            android:gravity="center">
+
+            <!-- Imagen superior - MÁS GRANDE y BAJADA -->
+            <ImageView
+                android:id="@+id/topPokemonImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginBottom="5dp"
+                android:scaleType="fitCenter"
+                android:alpha="0.8"
+                android:visibility="visible" />
+
+            <!-- Contenedor del grid centrado -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:scrollbars="vertical">
+
+                    <GridLayout
+                        android:id="@+id/gridLayout"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:columnCount="5"
+                        android:rowCount="11" />
+
+                </ScrollView>
+
+            </LinearLayout>
+
+            <!-- Imagen inferior - MÁS GRANDE y SUBIDA -->
+            <ImageView
+                android:id="@+id/bottomPokemonImage"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
+                android:layout_marginTop="5dp"
+                android:scaleType="fitCenter"
+                android:alpha="0.8"
+                android:visibility="visible" />
+
+        </LinearLayout>
+
+        <!-- Input Section -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/card_red_rounded"
+            android:padding="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ingresa Pokémon, Tipo, Color o Generación:"
+                android:textColor="@android:color/white"
+                android:textSize="14sp"
+                android:layout_marginBottom="10dp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <EditText
+                    android:id="@+id/inputEditText"
+                    android:layout_width="0dp"
+                    android:layout_height="55dp"
+                    android:layout_weight="1"
+                    android:hint="Ej: PIKACHU, FUEGO, AZUL, 1"
+                    android:textColor="@android:color/black"
+                    android:textSize="16sp"
+                    android:maxLength="12"
+                    android:background="@android:color/white"
+                    android:padding="15dp"
+                    android:layout_marginEnd="10dp"
+                    android:singleLine="true" />
+
+                <!-- BOTÓN ENVIAR MÁS ANCHO Y AZUL -->
+                <Button
+                    android:id="@+id/submitButton"
+                    android:layout_width="120dp"
+                    android:layout_height="55dp"
+                    android:text="ENVIAR"
+                    android:textColor="@android:color/white"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    android:backgroundTint="#3B4CCA"
+                    android:layout_marginEnd="8dp" />
+
+                <!-- BOTÓN PISTA AZUL -->
+                <Button
+                    android:id="@+id/hintButton"
+                    android:layout_width="65dp"
+                    android:layout_height="55dp"
+                    android:text="💡"
+                    android:textColor="@android:color/white"
+                    android:textSize="20sp"
+                    android:backgroundTint="#3B4CCA" />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</RelativeLayout>

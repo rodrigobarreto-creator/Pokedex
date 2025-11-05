@@ -28,10 +28,11 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
     private ImageView imagePokemon, imageMega;
     private LinearLayout statsContainer, megaStatsContainer, megaContainer, evolutionsContainer;
 
-    // ---- NUEVO: para TTS ----
+    // ---- NUEVO: soporte TTS ----
     private TextToSpeech tts;
     private boolean openedFromScanner = false;
     private String flavorTextForSpeech = "";
+    private String pokemonNameForSpeech = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,14 +58,16 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
         textMegaAbilities = findViewById(R.id.textMegaAbilities);
         megaStatsContainer = findViewById(R.id.megaStatsContainer);
 
+        // --- Recuperar nombre y origen ---
         String pokemonName = getIntent().getStringExtra("pokemonName");
-        openedFromScanner = getIntent().hasExtra("openedFromScanner"); // <- NUEVO
+        openedFromScanner = getIntent().hasExtra("openedFromScanner");
+        pokemonNameForSpeech = pokemonName != null ? pokemonName : "";
 
         if (pokemonName != null) {
             loadPokemonData(pokemonName.toLowerCase());
         }
 
-        // Inicializamos el motor TTS solo si vino desde el escáner
+        // Inicializamos el TTS solo si viene del escáner
         if (openedFromScanner) {
             tts = new TextToSpeech(this, this);
         }
@@ -94,8 +97,8 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
                 textTypes.setText("Tipos: " + types);
 
                 // Altura/Peso
-                textHeightWeight.setText("Altura: " + (p.get("height").getAsDouble()/10) +
-                        " m / Peso: " + (p.get("weight").getAsDouble()/10) + " kg");
+                textHeightWeight.setText("Altura: " + (p.get("height").getAsDouble() / 10) +
+                        " m / Peso: " + (p.get("weight").getAsDouble() / 10) + " kg");
 
                 // Habilidades
                 StringBuilder ab = new StringBuilder();
@@ -137,7 +140,7 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
         String[] methods = {"level-up", "machine", "tutor", "egg"};
         String[] titles = {"Por nivel:\n", "\nPor MT/MO:\n", "\nPor tutor:\n", "\nPor huevo:\n"};
 
-        for (int i=0;i<methods.length;i++) {
+        for (int i = 0; i < methods.length; i++) {
             builder.append(titles[i]);
             for (JsonElement e : moves) {
                 JsonObject m = e.getAsJsonObject();
@@ -166,14 +169,15 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
                 for (JsonElement e : species.getAsJsonArray("flavor_text_entries")) {
                     JsonObject entry = e.getAsJsonObject();
                     if (entry.getAsJsonObject("language").get("name").getAsString().equals("es")) {
-                        flavorText = entry.get("flavor_text").getAsString().replace("\n"," ").replace("\f"," ");
+                        flavorText = entry.get("flavor_text").getAsString().replace("\n", " ").replace("\f", " ");
                         break;
                     }
                 }
                 textDescription.setText(flavorText);
 
-                // ---- NUEVO: guardar descripción y leerla si viene del escáner ----
-                flavorTextForSpeech = flavorText;
+                // ---- NUEVO: guardar descripción y leer si viene del escáner ----
+                flavorTextForSpeech = "Has escaneado a " + pokemonNameForSpeech + ". " + flavorText;
+
                 if (openedFromScanner && tts != null && !flavorTextForSpeech.equals("Descripción no disponible")) {
                     speak(flavorTextForSpeech);
                 }
@@ -194,12 +198,18 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
                                     showMegaData(response.body());
                                 }
                             }
-                            @Override public void onFailure(Call<JsonObject> call, Throwable t) { }
+
+                            @Override
+                            public void onFailure(Call<JsonObject> call, Throwable t) {
+                            }
                         });
                     }
                 }
             }
-            @Override public void onFailure(Call<JsonObject> call, Throwable t) { }
+
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+            }
         });
     }
 
@@ -254,8 +264,8 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
             if (abObj.get("is_hidden").getAsBoolean()) abilityName += " (Oculta)";
             ab.append(abilityName).append(", ");
         }
-        if (ab.length()>2) ab.setLength(ab.length()-2);
-        textMegaAbilities.setText("Habilidades: "+ab);
+        if (ab.length() > 2) ab.setLength(ab.length() - 2);
+        textMegaAbilities.setText("Habilidades: " + ab);
     }
 
     // ------------------- Evolución -------------------
@@ -283,12 +293,17 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
                                 }
                             }
                         }
-                        @Override public void onFailure(Call<JsonObject> call, Throwable t) { }
+
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                        }
                     });
                 }
             }
 
-            @Override public void onFailure(Call<JsonObject> call, Throwable t) { }
+            @Override
+            public void onFailure(Call<JsonObject> call, Throwable t) {
+            }
         });
     }
 
@@ -321,21 +336,24 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
         }
     }
 
-    private void addStatBar(LinearLayout container, String name, int value) { addStatBar(container,name,value,false); }
+    private void addStatBar(LinearLayout container, String name, int value) {
+        addStatBar(container, name, value, false);
+    }
+
     private void addStatBar(LinearLayout container, String name, int value, boolean isTotal) {
         LinearLayout barLayout = new LinearLayout(this);
         barLayout.setOrientation(LinearLayout.HORIZONTAL);
-        barLayout.setPadding(0,4,0,4);
+        barLayout.setPadding(0, 4, 0, 4);
 
         TextView label = new TextView(this);
-        label.setText(name+": "+value);
+        label.setText(name + ": " + value);
         label.setTextColor(Color.WHITE);
         label.setWidth(250);
 
         android.view.View bar = new android.view.View(this);
-        int barWidth = Math.min(value*2,400);
-        bar.setLayoutParams(new LinearLayout.LayoutParams(barWidth,20));
-        bar.setBackgroundColor(isTotal?Color.GRAY:Color.GREEN);
+        int barWidth = Math.min(value * 2, 400);
+        bar.setLayoutParams(new LinearLayout.LayoutParams(barWidth, 20));
+        bar.setBackgroundColor(isTotal ? Color.GRAY : Color.GREEN);
 
         barLayout.addView(label);
         barLayout.addView(bar);

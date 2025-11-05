@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <!-- Configuración de seguridad de red para desarrollo -->
+    <domain-config cleartextTrafficPermitted="true">
+        <!-- Dirección del servidor local en red Wi-Fi actual -->
+        <domain includeSubdomains="true">10.236.29.216</domain>
+
+        <!-- Compatibilidad con emulador de Android -->
+        <domain includeSubdomains="true">10.0.2.2</domain>
+
+        <!-- Compatibilidad con entorno local -->
+        <domain includeSubdomains="true">localhost</domain>
+        <domain includeSubdomains="true">127.0.0.1</domain>
+    </domain-config>
+</network-security-config>

@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class ProfesorOakService {
     private static final String TAG = "ProfesorOakService";
-    private static final String BASE_URL = "http://192.168.100.178:8002";
+    private static final String BASE_URL = "http://10.236.29.216:8002";
 
     private OkHttpClient client;
 

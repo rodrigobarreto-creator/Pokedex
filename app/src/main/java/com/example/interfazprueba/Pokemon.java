@@ -5,26 +5,26 @@ public class Pokemon {
     private String type1;
     private String type2;
     private String color;
-    private String generation;
+    private String phase; // Cambiado de generation a phase
     private String imageName;
 
     // Constructor para Pokémon con un solo tipo
-    public Pokemon(String name, String type1, String color, String generation, String imageName) {
+    public Pokemon(String name, String type1, String color, String phase, String imageName) {
         this.name = name;
         this.type1 = type1;
         this.type2 = null;
         this.color = color;
-        this.generation = generation;
+        this.phase = phase;
         this.imageName = imageName;
     }
 
     // Constructor para Pokémon con dos tipos
-    public Pokemon(String name, String type1, String type2, String color, String generation, String imageName) {
+    public Pokemon(String name, String type1, String type2, String color, String phase, String imageName) {
         this.name = name;
         this.type1 = type1;
         this.type2 = type2;
         this.color = color;
-        this.generation = generation;
+        this.phase = phase;
         this.imageName = imageName;
     }
 
@@ -49,7 +49,7 @@ public class Pokemon {
     }
 
     public String getGeneration() {
-        return generation;
+        return phase; // Se mantiene el nombre del método por compatibilidad
     }
 
     public String getImageName() {

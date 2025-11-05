@@ -12,33 +12,17 @@
         android:alpha="0.2"
         android:src="@drawable/pokemon_logo" />
 
-    <!-- Botón Volver ARRIBA IZQUIERDA -->
+    <!-- Botón Volver SIN FONDO -->
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="16dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="8dp"
         android:text="← Volver"
         android:textColor="@android:color/white"
         android:background="@android:color/transparent"
-        android:padding="12dp"
-        android:textSize="14sp" />
-
-    <!-- Botón Modo Contrareloj ABAJO IZQUIERDA -->
-    <Button
-        android:id="@+id/timerModeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="16dp"
-        android:layout_marginStart="16dp"
-        android:text="⏰ Modo Contrareloj"
-        android:textColor="@android:color/white"
-        android:background="@drawable/button_pokemon_blue"
         android:padding="12dp"
         android:textSize="14sp" />
 
@@ -46,22 +30,24 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="8dp">
 
-        <!-- Header - SOLO TÍTULO CENTRADO -->
-        <RelativeLayout
+        <!-- Header -->
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="15dp"
-            android:layout_marginTop="8dp">
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="4dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
+                android:layout_weight="1"
                 android:text="Pokéddle"
                 android:textColor="@color/pokemon_yellow"
-                android:textSize="24sp"
+                android:textSize="18sp"
                 android:textStyle="bold"
                 android:gravity="center"
                 android:shadowColor="@android:color/black"
@@ -69,38 +55,20 @@
                 android:shadowDy="2"
                 android:shadowRadius="4" />
 
-            <!-- Temporizador - Visible solo en modo contrareloj -->
-            <TextView
-                android:id="@+id/timerTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
-                android:text="02:00"
-                android:textColor="@android:color/white"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                android:background="@drawable/button_pokemon_blue"
-                android:padding="12dp"
-                android:gravity="center"
-                android:visibility="gone" />
-
-            <!-- Contador de intentos - CON MISMO FORMATO QUE BOTÓN ENVIAR -->
+            <!-- Contador de intentos CON FORMATO AZUL -->
             <TextView
                 android:id="@+id/attemptsTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_centerVertical="true"
                 android:text="0/10"
                 android:textColor="@android:color/white"
-                android:textSize="16sp"
+                android:textSize="12sp"
                 android:textStyle="bold"
                 android:background="@drawable/button_pokemon_blue"
-                android:padding="12dp"
+                android:padding="6dp"
                 android:gravity="center" />
 
-        </RelativeLayout>
+        </LinearLayout>
 
         <!-- Pista -->
         <TextView
@@ -109,10 +77,10 @@
             android:layout_height="wrap_content"
             android:text=""
             android:textColor="@color/pokemon_yellow"
-            android:textSize="14sp"
+            android:textSize="10sp"
             android:background="@color/pokemon_red"
-            android:padding="12dp"
-            android:layout_marginBottom="15dp"
+            android:padding="6dp"
+            android:layout_marginBottom="8dp"
             android:visibility="gone"
             android:gravity="center"
             android:textStyle="italic" />
@@ -124,53 +92,37 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:background="@drawable/card_red_rounded"
-            android:padding="15dp"
+            android:padding="8dp"
             android:orientation="vertical"
             android:gravity="center">
 
-            <!-- Imagen superior - MÁS GRANDE y BAJADA -->
+            <!-- Imagen superior -->
             <ImageView
                 android:id="@+id/topPokemonImage"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginBottom="5dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginBottom="8dp"
                 android:scaleType="fitCenter"
-                android:alpha="0.8"
+                android:alpha="0.9"
                 android:visibility="visible" />
 
-            <!-- Contenedor del grid centrado -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:orientation="vertical">
+            <!-- SOLO EL GRIDLAYOUT - LOS TÍTULOS SE AGREGARÁN PROGRAMÁTICAMENTE -->
+            <GridLayout
+                android:id="@+id/gridLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:columnCount="5"
+                android:rowCount="11" /> <!-- 10 filas de datos + 1 fila de títulos -->
 
-                <ScrollView
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:scrollbars="vertical">
-
-                    <GridLayout
-                        android:id="@+id/gridLayout"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:columnCount="5"
-                        android:rowCount="11" />
-
-                </ScrollView>
-
-            </LinearLayout>
-
-            <!-- Imagen inferior - MÁS GRANDE y SUBIDA -->
+            <!-- Imagen inferior -->
             <ImageView
                 android:id="@+id/bottomPokemonImage"
-                android:layout_width="120dp"
-                android:layout_height="120dp"
-                android:layout_marginTop="5dp"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginTop="8dp"
                 android:scaleType="fitCenter"
-                android:alpha="0.8"
+                android:alpha="0.9"
                 android:visibility="visible" />
 
         </LinearLayout>
@@ -180,17 +132,17 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="8dp"
             android:background="@drawable/card_red_rounded"
-            android:padding="15dp">
+            android:padding="8dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ingresa Pokémon, Tipo, Color o Generación:"
                 android:textColor="@android:color/white"
-                android:textSize="14sp"
-                android:layout_marginBottom="10dp"
+                android:textSize="10sp"
+                android:layout_marginBottom="6dp"
                 android:textStyle="bold" />
 
             <LinearLayout
@@ -202,38 +154,40 @@
                 <EditText
                     android:id="@+id/inputEditText"
                     android:layout_width="0dp"
-                    android:layout_height="55dp"
+                    android:layout_height="40dp"
                     android:layout_weight="1"
                     android:hint="Ej: PIKACHU, FUEGO, AZUL, 1"
                     android:textColor="@android:color/black"
-                    android:textSize="16sp"
+                    android:textSize="12sp"
                     android:maxLength="12"
                     android:background="@android:color/white"
-                    android:padding="15dp"
-                    android:layout_marginEnd="10dp"
+                    android:padding="8dp"
+                    android:layout_marginEnd="6dp"
                     android:singleLine="true" />
 
                 <!-- BOTÓN ENVIAR -->
                 <Button
                     android:id="@+id/submitButton"
-                    android:layout_width="120dp"
-                    android:layout_height="55dp"
+                    android:layout_width="90dp"
+                    android:layout_height="40dp"
                     android:text="ENVIAR"
                     android:textColor="@android:color/white"
-                    android:textSize="14sp"
+                    android:textSize="10sp"
                     android:textStyle="bold"
                     android:background="@drawable/button_pokemon_blue"
-                    android:layout_marginEnd="8dp" />
+                    android:layout_marginEnd="4dp"
+                    android:padding="4dp" />
 
                 <!-- BOTÓN PISTA -->
                 <Button
                     android:id="@+id/hintButton"
-                    android:layout_width="65dp"
-                    android:layout_height="55dp"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
                     android:text="💡"
                     android:textColor="@android:color/white"
-                    android:textSize="20sp"
-                    android:background="@drawable/button_pokemon_blue" />
+                    android:textSize="14sp"
+                    android:background="@drawable/button_pokemon_blue"
+                    android:padding="4dp" />
 
             </LinearLayout>
 

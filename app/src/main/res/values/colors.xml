@@ -27,6 +27,9 @@
     <color name="type_ground">#8D6E63</color>        <!-- Marrón tierra -->
     <color name="type_dark">#5D4037</color>          <!-- Marrón oscuro siniestro -->
     <color name="type_fairy">#F48FB1</color>         <!-- Rosa claro hada -->
+    <color name="type_bug">#8BC34A</color>           <!-- Verde bicho -->
+    <color name="type_ice">#80DEEA</color>           <!-- Azul claro hielo -->
+    <color name="type_poison">#9C27B0</color>        <!-- Morado veneno -->
 
     <!-- Colores nuevos para los cambios -->
     <color name="light_blue">#4FC3F7</color> <!-- Azul claro -->

@@ -28,18 +28,17 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
     private ImageView imagePokemon, imageMega;
     private LinearLayout statsContainer, megaStatsContainer, megaContainer, evolutionsContainer;
 
-    // ---- NUEVO: soporte TTS ----
     private TextToSpeech tts;
     private boolean openedFromScanner = false;
     private String flavorTextForSpeech = "";
     private String pokemonNameForSpeech = "";
+    private String preEvolutionName = ""; // ← NUEVO: para guardar la preevolución
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_pokemon_detail);
 
-        // --- Botón retroceso ---
         ImageButton btnBack = findViewById(R.id.btn_back);
         btnBack.setOnClickListener(v -> finish());
 
@@ -58,7 +57,6 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
         textMegaAbilities = findViewById(R.id.textMegaAbilities);
         megaStatsContainer = findViewById(R.id.megaStatsContainer);
 
-        // --- Recuperar nombre y origen ---
         String pokemonName = getIntent().getStringExtra("pokemonName");
         openedFromScanner = getIntent().hasExtra("openedFromScanner");
         pokemonNameForSpeech = pokemonName != null ? pokemonName : "";
@@ -67,13 +65,11 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
             loadPokemonData(pokemonName.toLowerCase());
         }
 
-        // Inicializamos el TTS solo si viene del escáner
         if (openedFromScanner) {
             tts = new TextToSpeech(this, this);
         }
     }
 
-    // ------------------- Carga de Pokémon -------------------
     private void loadPokemonData(String name) {
         PokeApiService.getApi().getPokemon(name).enqueue(new Callback<JsonObject>() {
             @Override
@@ -83,12 +79,10 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
 
                 textNameNumber.setText("#" + p.get("id").getAsInt() + " " + p.get("name").getAsString());
 
-                // Imagen principal
                 Glide.with(PokemonDetailActivity.this)
                         .load(p.getAsJsonObject("sprites").get("front_default").getAsString())
                         .into(imagePokemon);
 
-                // Tipos
                 StringBuilder types = new StringBuilder();
                 for (JsonElement t : p.getAsJsonArray("types")) {
                     types.append(t.getAsJsonObject().getAsJsonObject("type").get("name").getAsString()).append(", ");
@@ -96,11 +90,9 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
                 if (types.length() > 2) types.setLength(types.length() - 2);
                 textTypes.setText("Tipos: " + types);
 
-                // Altura/Peso
                 textHeightWeight.setText("Altura: " + (p.get("height").getAsDouble() / 10) +
                         " m / Peso: " + (p.get("weight").getAsDouble() / 10) + " kg");
 
-                // Habilidades
                 StringBuilder ab = new StringBuilder();
                 for (JsonElement a : p.getAsJsonArray("abilities")) {
                     JsonObject abObj = a.getAsJsonObject();
@@ -111,7 +103,6 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
                 if (ab.length() > 2) ab.setLength(ab.length() - 2);
                 textAbilities.setText("Habilidades: " + ab);
 
-                // Stats
                 statsContainer.removeAllViews();
                 int total = 0;
                 for (JsonElement s : p.getAsJsonArray("stats")) {
@@ -133,7 +124,6 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
         });
     }
 
-    // ------------------- Mostrar movimientos -------------------
     private void showMoves(JsonObject pokemon) {
         StringBuilder builder = new StringBuilder();
         JsonArray moves = pokemon.getAsJsonArray("moves");
@@ -156,7 +146,6 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
         textMoves.setText(builder.toString());
     }
 
-    // ------------------- Especies y evoluciones -------------------
     private void loadSpeciesAndForms(String name) {
         PokeApiService.getApi().getPokemonSpecies(name).enqueue(new Callback<JsonObject>() {
             @Override
@@ -175,19 +164,32 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
                 }
                 textDescription.setText(flavorText);
 
-                // ---- NUEVO: guardar descripción y leer si viene del escáner ----
-                flavorTextForSpeech = "Has escaneado a " + pokemonNameForSpeech + ". " + flavorText;
+                // --- NUEVO: obtener preevolución si existe ---
+                if (species.has("evolves_from_species") && !species.get("evolves_from_species").isJsonNull()) {
+                    preEvolutionName = species.getAsJsonObject("evolves_from_species").get("name").getAsString();
+                } else {
+                    preEvolutionName = "";
+                }
 
+                // --- Texto que se leerá dinámicamente ---
+                if (!preEvolutionName.isEmpty()) {
+                    flavorTextForSpeech = "Has escaneado a " + pokemonNameForSpeech +
+                            ", la forma evolucionada de " + preEvolutionName + ". " + flavorText;
+                } else {
+                    flavorTextForSpeech = "Has escaneado a " + pokemonNameForSpeech + ". " + flavorText;
+                }
+
+                // --- Leer automáticamente si viene del escáner ---
                 if (openedFromScanner && tts != null && !flavorTextForSpeech.equals("Descripción no disponible")) {
                     speak(flavorTextForSpeech);
                 }
 
-                // Evoluciones
+                // Cargar evoluciones
                 if (species.has("evolution_chain")) {
                     loadEvolutionChain(species.getAsJsonObject("evolution_chain").get("url").getAsString());
                 }
 
-                // Megas
+                // Cargar Megas
                 for (JsonElement v : species.getAsJsonArray("varieties")) {
                     String varName = v.getAsJsonObject().getAsJsonObject("pokemon").get("name").getAsString();
                     if (!varName.equals(name) && varName.toLowerCase().contains("mega")) {
@@ -213,18 +215,16 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
         });
     }
 
-    // ------------------- Text-to-Speech -------------------
+    // --- TextToSpeech ---
     @Override
     public void onInit(int status) {
         if (status == TextToSpeech.SUCCESS) {
             int result = tts.setLanguage(new Locale("es", "ES"));
-            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
-                android.util.Log.e("TTS", "Idioma no soportado");
-            } else if (openedFromScanner && !flavorTextForSpeech.isEmpty()) {
-                speak(flavorTextForSpeech);
+            if (result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED) {
+                if (openedFromScanner && !flavorTextForSpeech.isEmpty()) {
+                    speak(flavorTextForSpeech);
+                }
             }
-        } else {
-            android.util.Log.e("TTS", "Error inicializando TextToSpeech");
         }
     }
 
@@ -244,7 +244,6 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
         super.onDestroy();
     }
 
-    // ------------------- Mega Pokémon -------------------
     private void showMegaData(JsonObject mega) {
         megaContainer.setVisibility(android.view.View.VISIBLE);
         Glide.with(this)
@@ -268,7 +267,6 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
         textMegaAbilities.setText("Habilidades: " + ab);
     }
 
-    // ------------------- Evolución -------------------
     private void loadEvolutionChain(String url) {
         PokeApiService.getApi().getEvolutionChain(url).enqueue(new Callback<JsonObject>() {
             @Override

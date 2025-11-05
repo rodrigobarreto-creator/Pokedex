@@ -5,6 +5,7 @@ import androidx.core.content.ContextCompat;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.text.TextUtils;
 import android.view.View;
@@ -13,6 +14,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.ArrayList;
@@ -26,11 +28,14 @@ public class GameActivity extends AppCompatActivity {
     private EditText inputEditText;
     private Button submitButton;
     private Button hintButton;
+    private Button timerModeButton;
     private TextView attemptsTextView;
     private TextView hintTextView;
+    private TextView timerTextView;
     private Button backButton;
     private ImageView topPokemonImage;
     private ImageView bottomPokemonImage;
+    private LinearLayout gridContainer;
 
     private Pokemon targetPokemon;
     private List<Pokemon> pokemonList;
@@ -42,6 +47,12 @@ public class GameActivity extends AppCompatActivity {
     private Handler imageHandler = new Handler();
     private Random random = new Random();
 
+    // Variables para modo contrareloj
+    private CountDownTimer gameTimer;
+    private final long TOTAL_GAME_TIME = 120000; // 2 minutos en milisegundos
+    private boolean isTimerMode = false;
+    private long timeLeftInMillis = TOTAL_GAME_TIME;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -52,6 +63,109 @@ public class GameActivity extends AppCompatActivity {
         setupUI();
         setupGrid();
         startImageRotation();
+    }
+
+    private void toggleTimerMode() {
+        if (isTimerMode) {
+            // Desactivar modo contrareloj
+            stopTimerMode();
+            timerModeButton.setText("⏰ Modo Contrareloj");
+            Toast.makeText(this, "Modo normal activado", Toast.LENGTH_SHORT).show();
+        } else {
+            // Activar modo contrareloj
+            startTimerMode();
+            timerModeButton.setText("🔁 Modo Normal");
+            Toast.makeText(this, "¡Modo contrareloj activado! 2 minutos", Toast.LENGTH_LONG).show();
+        }
+        isTimerMode = !isTimerMode;
+    }
+
+    private void startTimerMode() {
+        // Cambiar fondo a azul
+        gridContainer.setBackgroundResource(R.drawable.card_blue_rounded);
+
+        // Mostrar temporizador y ocultar contador de intentos
+        timerTextView.setVisibility(View.VISIBLE);
+        attemptsTextView.setVisibility(View.GONE);
+
+        // Desactivar pistas en modo contrareloj
+        hintButton.setEnabled(false);
+        hintButton.setBackgroundColor(Color.GRAY);
+
+        // Cambiar texto del botón
+        timerModeButton.setText("🔁 Modo Normal");
+
+        // Cambiar color del botón a rojo cuando está activo el modo contrareloj
+        timerModeButton.setBackgroundResource(R.drawable.button_pokemon_red);
+
+        // Reiniciar intentos para modo contrareloj
+        currentAttempt = 0;
+
+        // Iniciar temporizador
+        gameTimer = new CountDownTimer(timeLeftInMillis, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                timeLeftInMillis = millisUntilFinished;
+                updateTimerDisplay();
+            }
+
+            @Override
+            public void onFinish() {
+                timeLeftInMillis = 0;
+                updateTimerDisplay();
+                // Tiempo agotado
+                showResult(false, "¡Tiempo agotado!");
+            }
+        }.start();
+    }
+
+    private void stopTimerMode() {
+        // Cambiar fondo a rojo (normal)
+        gridContainer.setBackgroundResource(R.drawable.card_red_rounded);
+
+        // Ocultar temporizador y mostrar contador de intentos
+        timerTextView.setVisibility(View.GONE);
+        attemptsTextView.setVisibility(View.VISIBLE);
+        attemptsTextView.setText("Intentos: " + currentAttempt + "/" + MAX_ATTEMPTS);
+
+        // Reactivar pistas
+        hintButton.setEnabled(true);
+        hintButton.setBackgroundResource(R.drawable.button_pokemon_blue);
+
+        // Cambiar texto del botón
+        timerModeButton.setText("⏰ Modo Contrareloj");
+
+        // Detener temporizador
+        if (gameTimer != null) {
+            gameTimer.cancel();
+            gameTimer = null;
+        }
+
+        // Reiniciar tiempo
+        timeLeftInMillis = TOTAL_GAME_TIME;
+
+        // Restaurar color del botón de modo contrareloj
+        timerModeButton.setBackgroundResource(R.drawable.button_pokemon_blue);
+    }
+
+    private void updateTimerDisplay() {
+        int minutes = (int) (timeLeftInMillis / 1000) / 60;
+        int seconds = (int) (timeLeftInMillis / 1000) % 60;
+
+        String timeLeftFormatted = String.format("%02d:%02d", minutes, seconds);
+        timerTextView.setText(timeLeftFormatted);
+
+        // Cambiar color cuando quede poco tiempo
+        if (timeLeftInMillis < 30000) { // Menos de 30 segundos
+            timerTextView.setTextColor(Color.RED);
+            timerTextView.setBackgroundColor(Color.YELLOW);
+        } else if (timeLeftInMillis < 60000) { // Menos de 1 minuto
+            timerTextView.setTextColor(Color.YELLOW);
+            timerTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.pokemon_red));
+        } else {
+            timerTextView.setTextColor(Color.WHITE);
+            timerTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.pokemon_red));
+        }
     }
 
     private void startImageRotation() {
@@ -97,6 +211,9 @@ public class GameActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         imageHandler.removeCallbacksAndMessages(null);
+        if (gameTimer != null) {
+            gameTimer.cancel();
+        }
     }
 
     private void initializePokemonList() {
@@ -133,19 +250,33 @@ public class GameActivity extends AppCompatActivity {
         inputEditText = findViewById(R.id.inputEditText);
         submitButton = findViewById(R.id.submitButton);
         hintButton = findViewById(R.id.hintButton);
+        timerModeButton = findViewById(R.id.timerModeButton);
         attemptsTextView = findViewById(R.id.attemptsTextView);
         hintTextView = findViewById(R.id.hintTextView);
+        timerTextView = findViewById(R.id.timerTextView);
         backButton = findViewById(R.id.backButton);
         topPokemonImage = findViewById(R.id.topPokemonImage);
         bottomPokemonImage = findViewById(R.id.bottomPokemonImage);
+        gridContainer = findViewById(R.id.gridContainer);
 
         // Botón para volver al menú principal
         backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (gameTimer != null) {
+                    gameTimer.cancel();
+                }
                 Intent intent = new Intent(GameActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
+            }
+        });
+
+        // Botón para alternar modo contrareloj
+        timerModeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toggleTimerMode();
             }
         });
 
@@ -174,7 +305,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void showHint() {
-        if (!hintUsed) {
+        if (!hintUsed && !isTimerMode) {
             hintUsed = true;
             hintButton.setEnabled(false);
             hintButton.setBackgroundColor(Color.GRAY);
@@ -196,6 +327,8 @@ public class GameActivity extends AppCompatActivity {
 
             hintTextView.setAlpha(0f);
             hintTextView.animate().alpha(1f).setDuration(1000).start();
+        } else if (isTimerMode) {
+            Toast.makeText(this, "Pistas no disponibles en modo contrareloj", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(this, "Ya usaste tu pista", Toast.LENGTH_SHORT).show();
         }
@@ -260,7 +393,6 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    // ... (el resto de los métodos se mantienen igual: processGuess, processInput, etc.)
     private void processGuess() {
         String guess = inputEditText.getText().toString().trim().toUpperCase();
 
@@ -277,16 +409,35 @@ public class GameActivity extends AppCompatActivity {
         }
 
         updateGrid(result);
-        currentAttempt++;
-        attemptsTextView.setText("Intentos: " + currentAttempt + "/" + MAX_ATTEMPTS);
+
+        if (!isTimerMode) {
+            currentAttempt++;
+            attemptsTextView.setText("Intentos: " + currentAttempt + "/" + MAX_ATTEMPTS);
+        }
+
         inputEditText.setText("");
 
         if (result.isCorrectPokemon()) {
-            showResult(true);
-        } else if (currentAttempt >= MAX_ATTEMPTS) {
-            showResult(false);
+            if (gameTimer != null) {
+                gameTimer.cancel();
+            }
+            String message = isTimerMode ?
+                    "¡Adivinaste con " + getTimeLeftString() + " restantes!" :
+                    "¡Adivinaste en " + currentAttempt + " intentos!";
+            showResult(true, message);
+        } else if (!isTimerMode && currentAttempt >= MAX_ATTEMPTS) {
+            showResult(false, "¡Se acabaron los intentos!");
         }
     }
+
+    private String getTimeLeftString() {
+        int seconds = (int) (timeLeftInMillis / 1000);
+        int minutes = seconds / 60;
+        int remainingSeconds = seconds % 60;
+        return String.format("%02d:%02d", minutes, remainingSeconds);
+    }
+
+    // ... (el resto de los métodos processInput, findPokemon, isValidType, etc. se mantienen igual)
 
     private GuessResult processInput(String input) {
         GuessResult result = new GuessResult();
@@ -516,7 +667,7 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
-    private void showResult(boolean won) {
+    private void showResult(boolean won, String message) {
         Intent intent = new Intent(this, ResultActivity.class);
         intent.putExtra("WON", won);
         intent.putExtra("POKEMON", targetPokemon.getName());
@@ -525,6 +676,11 @@ public class GameActivity extends AppCompatActivity {
         intent.putExtra("GENERATION", targetPokemon.getGeneration());
         intent.putExtra("IMAGE_NAME", targetPokemon.getImageName());
         intent.putExtra("ATTEMPTS", currentAttempt);
+        intent.putExtra("MESSAGE", message);
+        intent.putExtra("TIMER_MODE", isTimerMode);
+        if (isTimerMode) {
+            intent.putExtra("TIME_LEFT", timeLeftInMillis);
+        }
         startActivity(intent);
         finish();
     }

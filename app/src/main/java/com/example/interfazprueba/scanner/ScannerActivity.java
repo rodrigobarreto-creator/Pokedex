@@ -27,9 +27,13 @@ import androidx.camera.view.PreviewView;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.interfazprueba.PokemonDetailActivity;
 import com.example.interfazprueba.R;
 import com.example.interfazprueba.scanner.services.ProfesorOakService;
 import com.google.common.util.concurrent.ListenableFuture;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.util.concurrent.ExecutionException;
@@ -72,7 +76,6 @@ public class ScannerActivity extends AppCompatActivity {
         btnCapture.setOnClickListener(v -> capturePhoto());
         btnGallery.setOnClickListener(v -> openGallery());
 
-        // Verificar permisos antes de iniciar cámara
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA)
                 == PackageManager.PERMISSION_GRANTED) {
             startCamera();
@@ -144,8 +147,8 @@ public class ScannerActivity extends AppCompatActivity {
 
                         profesorOakService.clasificarPokemon(bitmap, new ProfesorOakService.PokemonCallback() {
                             @Override
-                            public void onSuccess(String prediction) {
-                                runOnUiThread(() -> textResult.setText("Resultado: " + prediction));
+                            public void onSuccess(String predictionJson) {
+                                procesarPrediccion(predictionJson);
                             }
 
                             @Override
@@ -167,6 +170,26 @@ public class ScannerActivity extends AppCompatActivity {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType("image/*");
         startActivityForResult(intent, GALLERY_REQUEST_CODE);
+    }
+
+    private void procesarPrediccion(String predictionJson) {
+        runOnUiThread(() -> {
+            try {
+                JSONObject json = new JSONObject(predictionJson);
+                String pokemonName = json.getString("pokemon");
+                double confidence = json.getDouble("confidence");
+
+                textResult.setText("Detectado: " + pokemonName + " (" + confidence + "%)");
+
+                Intent intent = new Intent(ScannerActivity.this, PokemonDetailActivity.class);
+                intent.putExtra("pokemonName", pokemonName.toLowerCase());
+                startActivity(intent);
+
+            } catch (JSONException e) {
+                textResult.setText("Error procesando resultado");
+                e.printStackTrace();
+            }
+        });
     }
 
     @Override
@@ -197,8 +220,8 @@ public class ScannerActivity extends AppCompatActivity {
 
                 profesorOakService.clasificarPokemon(bitmap, new ProfesorOakService.PokemonCallback() {
                     @Override
-                    public void onSuccess(String prediction) {
-                        runOnUiThread(() -> textResult.setText("Resultado: " + prediction));
+                    public void onSuccess(String predictionJson) {
+                        procesarPrediccion(predictionJson);
                     }
 
                     @Override

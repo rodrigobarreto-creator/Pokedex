@@ -73,4 +73,8 @@ dependencies {
 
     // Guava (requerido por CameraX para ListenableFuture)
     implementation("com.google.guava:guava:32.1.2-android")
+
+    // Text to Speach
+    implementation("androidx.core:core-ktx:1.13.1")
+
 }

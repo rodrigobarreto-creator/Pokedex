@@ -2,6 +2,7 @@ package com.example.interfazprueba;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.speech.tts.TextToSpeech;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -14,16 +15,23 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 
+import java.util.Locale;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class PokemonDetailActivity extends AppCompatActivity {
+public class PokemonDetailActivity extends AppCompatActivity implements TextToSpeech.OnInitListener {
 
     private TextView textNameNumber, textTypes, textDescription, textHeightWeight, textAbilities,
             textEvolutions, textMoves, textMegaAbilities;
     private ImageView imagePokemon, imageMega;
     private LinearLayout statsContainer, megaStatsContainer, megaContainer, evolutionsContainer;
+
+    // ---- NUEVO: para TTS ----
+    private TextToSpeech tts;
+    private boolean openedFromScanner = false;
+    private String flavorTextForSpeech = "";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,8 +58,15 @@ public class PokemonDetailActivity extends AppCompatActivity {
         megaStatsContainer = findViewById(R.id.megaStatsContainer);
 
         String pokemonName = getIntent().getStringExtra("pokemonName");
+        openedFromScanner = getIntent().hasExtra("openedFromScanner"); // <- NUEVO
+
         if (pokemonName != null) {
             loadPokemonData(pokemonName.toLowerCase());
+        }
+
+        // Inicializamos el motor TTS solo si vino desde el escáner
+        if (openedFromScanner) {
+            tts = new TextToSpeech(this, this);
         }
     }
 
@@ -157,6 +172,12 @@ public class PokemonDetailActivity extends AppCompatActivity {
                 }
                 textDescription.setText(flavorText);
 
+                // ---- NUEVO: guardar descripción y leerla si viene del escáner ----
+                flavorTextForSpeech = flavorText;
+                if (openedFromScanner && tts != null && !flavorTextForSpeech.equals("Descripción no disponible")) {
+                    speak(flavorTextForSpeech);
+                }
+
                 // Evoluciones
                 if (species.has("evolution_chain")) {
                     loadEvolutionChain(species.getAsJsonObject("evolution_chain").get("url").getAsString());
@@ -180,6 +201,37 @@ public class PokemonDetailActivity extends AppCompatActivity {
             }
             @Override public void onFailure(Call<JsonObject> call, Throwable t) { }
         });
+    }
+
+    // ------------------- Text-to-Speech -------------------
+    @Override
+    public void onInit(int status) {
+        if (status == TextToSpeech.SUCCESS) {
+            int result = tts.setLanguage(new Locale("es", "ES"));
+            if (result == TextToSpeech.LANG_MISSING_DATA || result == TextToSpeech.LANG_NOT_SUPPORTED) {
+                android.util.Log.e("TTS", "Idioma no soportado");
+            } else if (openedFromScanner && !flavorTextForSpeech.isEmpty()) {
+                speak(flavorTextForSpeech);
+            }
+        } else {
+            android.util.Log.e("TTS", "Error inicializando TextToSpeech");
+        }
+    }
+
+    private void speak(String text) {
+        if (tts != null) {
+            tts.stop();
+            tts.speak(text, TextToSpeech.QUEUE_FLUSH, null, null);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        if (tts != null) {
+            tts.stop();
+            tts.shutdown();
+        }
+        super.onDestroy();
     }
 
     // ------------------- Mega Pokémon -------------------
@@ -214,21 +266,16 @@ public class PokemonDetailActivity extends AppCompatActivity {
                 if (!response.isSuccessful() || response.body() == null) return;
                 evolutionsContainer.removeAllViews();
 
-                // Lista donde almacenaremos los nombres de todos los Pokémon de la cadena
                 java.util.List<String> evolutionNames = new java.util.ArrayList<>();
                 collectEvolutionNames(response.body().getAsJsonObject("chain"), evolutionNames);
 
-                // Obtener los datos de cada Pokémon y luego ordenarlos
                 java.util.List<JsonObject> evolutionData = new java.util.ArrayList<>();
-
                 for (String name : evolutionNames) {
                     PokeApiService.getApi().getPokemon(name).enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                             if (response.isSuccessful() && response.body() != null) {
                                 evolutionData.add(response.body());
-
-                                // Cuando tengamos todos los Pokémon, los ordenamos
                                 if (evolutionData.size() == evolutionNames.size()) {
                                     evolutionData.sort((a, b) ->
                                             Integer.compare(a.get("id").getAsInt(), b.get("id").getAsInt()));
@@ -245,7 +292,6 @@ public class PokemonDetailActivity extends AppCompatActivity {
         });
     }
 
-    // Recorre recursivamente la cadena de evoluciones y agrega los nombres
     private void collectEvolutionNames(JsonObject chain, java.util.List<String> list) {
         String name = chain.getAsJsonObject("species").get("name").getAsString();
         list.add(name);
@@ -256,10 +302,8 @@ public class PokemonDetailActivity extends AppCompatActivity {
         }
     }
 
-    // Muestra las imágenes de la cadena evolutiva en orden
     private void showEvolutionImages(java.util.List<JsonObject> pokemons) {
         evolutionsContainer.removeAllViews();
-
         for (JsonObject p : pokemons) {
             ImageView evoImage = new ImageView(PokemonDetailActivity.this);
             int sizeInDp = 100;
@@ -277,8 +321,6 @@ public class PokemonDetailActivity extends AppCompatActivity {
         }
     }
 
-
-    // ------------------- Stats -------------------
     private void addStatBar(LinearLayout container, String name, int value) { addStatBar(container,name,value,false); }
     private void addStatBar(LinearLayout container, String name, int value, boolean isTotal) {
         LinearLayout barLayout = new LinearLayout(this);

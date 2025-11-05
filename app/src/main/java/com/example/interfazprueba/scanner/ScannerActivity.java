@@ -183,6 +183,7 @@ public class ScannerActivity extends AppCompatActivity {
 
                 Intent intent = new Intent(ScannerActivity.this, PokemonDetailActivity.class);
                 intent.putExtra("pokemonName", pokemonName.toLowerCase());
+                intent.putExtra("openedFromScanner", true);
                 startActivity(intent);
 
             } catch (JSONException e) {

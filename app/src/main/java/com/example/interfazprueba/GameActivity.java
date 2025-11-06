@@ -47,6 +47,7 @@ public class GameActivity extends AppCompatActivity {
     private int cellWidth;
     private int cellHeight;
     private int cellTextSize;
+    private int cellDataTextSize; // Tamaño de texto más pequeño para datos
 
     // Anchors para las columnas (ahora se calculan dinámicamente)
     private int[] columnWidths;
@@ -72,17 +73,23 @@ public class GameActivity extends AppCompatActivity {
         int screenWidth = displayMetrics.widthPixels;
 
         // Calcular anchos basados en el ancho de pantalla
-        cellWidth = (int) (screenWidth * 0.18); // 18% del ancho de pantalla para cada columna
+        // FASE es más angosta que las demás columnas
+        int standardWidth = (int) (screenWidth * 0.18);
+        int phaseWidth = (int) (screenWidth * 0.14); // FASE más angosta
+
         cellHeight = (int) (displayMetrics.heightPixels * 0.035);
         cellTextSize = (int) (displayMetrics.widthPixels * 0.012);
+        cellDataTextSize = (int) (displayMetrics.widthPixels * 0.010); // Texto más pequeño para datos
 
         // Asegurar mínimos
-        if (cellWidth < 150) cellWidth = 150;
+        if (standardWidth < 150) standardWidth = 150;
+        if (phaseWidth < 120) phaseWidth = 120;
         if (cellHeight < 25) cellHeight = 25;
         if (cellTextSize < 4) cellTextSize = 4;
+        if (cellDataTextSize < 3) cellDataTextSize = 3;
 
-        // Actualizar columnWidths para usar el mismo ancho para todas las columnas
-        columnWidths = new int[]{cellWidth, cellWidth, cellWidth, cellWidth, cellWidth};
+        // Actualizar columnWidths con FASE más angosta
+        columnWidths = new int[]{standardWidth, standardWidth, standardWidth, standardWidth, phaseWidth};
     }
 
     private void setupGridWithTitles() {
@@ -90,7 +97,7 @@ public class GameActivity extends AppCompatActivity {
         gridLayout.removeAllViews();
         gridLayout.setRowCount(11);
 
-        // PRIMERA FILA: TÍTULOS DE COLUMNAS
+        // PRIMERA FILA: TÍTULOS DE COLUMNAS (texto normal)
         for (int col = 0; col < 5; col++) {
             TextView titleTextView = new TextView(this);
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
@@ -102,7 +109,7 @@ public class GameActivity extends AppCompatActivity {
 
             titleTextView.setLayoutParams(params);
             titleTextView.setText(columnTitles[col]);
-            titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, cellTextSize);
+            titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, cellTextSize); // Tamaño normal para títulos
             titleTextView.setTextColor(Color.WHITE);
             titleTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.pokemon_red));
             titleTextView.setGravity(android.view.Gravity.CENTER);
@@ -112,7 +119,7 @@ public class GameActivity extends AppCompatActivity {
             gridLayout.addView(titleTextView);
         }
 
-        // FILAS 1-10: DATOS DEL JUEGO
+        // FILAS 1-10: DATOS DEL JUEGO (texto más pequeño)
         for (int row = 1; row <= MAX_ATTEMPTS; row++) {
             TextView[] rowViews = new TextView[5];
             for (int col = 0; col < 5; col++) {
@@ -125,7 +132,7 @@ public class GameActivity extends AppCompatActivity {
                 params.setMargins(1, 1, 1, 1);
 
                 textView.setLayoutParams(params);
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, cellTextSize);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, cellDataTextSize); // Texto más pequeño para datos
                 textView.setBackgroundColor(Color.WHITE);
                 textView.setTextColor(Color.BLACK);
                 textView.setGravity(android.view.Gravity.CENTER);
@@ -293,7 +300,7 @@ public class GameActivity extends AppCompatActivity {
                 // LÍNEA CATERPIE - Fases: BÁSICO, 1, 2
                 new Pokemon("CATERPIE", "BICHO", "VERDE", "BÁSICO", "caterpie"),
                 new Pokemon("METAPOD", "BICHO", "VERDE", "1", "metapod"),
-                new Pokemon("BUTTERFREE", "BICHO", "VOLADOR", "BLANCO", "2", "butterfree"),
+                new Pokemon("BUTTERFREE", "BICHO", "VOLADOR", "MORADO", "2", "butterfree"),
 
                 // LÍNEA PIDGEY - Fases: BÁSICO, 1, 2
                 new Pokemon("PIDGEY", "NORMAL", "VOLADOR", "MARRÓN", "BÁSICO", "pidgey"),
@@ -310,7 +317,7 @@ public class GameActivity extends AppCompatActivity {
 
                 // LÍNEA PIKACHU - Fases: BÁSICO, 1
                 new Pokemon("PIKACHU", "ELÉCTRICO", "AMARILLO", "BÁSICO", "pikachu"),
-                new Pokemon("RAICHU", "ELÉCTRICO", "AMARILLO", "1", "raichu"),
+                new Pokemon("RAICHU", "ELÉCTRICO", "NARANJA", "1", "raichu"),
 
                 // LÍNEA CLEFAIRY - Fases: BÁSICO, 1
                 new Pokemon("CLEFAIRY", "HADA", "ROSA", "BÁSICO", "clefairy"),
@@ -327,12 +334,12 @@ public class GameActivity extends AppCompatActivity {
                 // LÍNEA ODDISH - Fases: BÁSICO, 1, 2
                 new Pokemon("ODDISH", "PLANTA", "VENENO", "AZUL", "BÁSICO", "oddish"),
                 new Pokemon("GLOOM", "PLANTA", "VENENO", "AZUL", "1", "gloom"),
-                new Pokemon("VILEPLUME", "PLANTA", "VENENO", "ROJO", "2", "vileplume"),
+                new Pokemon("VILEPLUME", "PLANTA", "VENENO", "AZUL", "2", "vileplume"),
 
                 // LÍNEA ABRA - Fases: BÁSICO, 1, 2
-                new Pokemon("ABRA", "PSÍQUICO", "MARRÓN", "BÁSICO", "abra"),
-                new Pokemon("KADABRA", "PSÍQUICO", "MARRÓN", "1", "kadabra"),
-                new Pokemon("ALAKAZAM", "PSÍQUICO", "MARRÓN", "2", "alakazam"),
+                new Pokemon("ABRA", "PSÍQUICO", "AMARILLO", "BÁSICO", "abra"),
+                new Pokemon("KADABRA", "PSÍQUICO", "AMARILLO", "1", "kadabra"),
+                new Pokemon("ALAKAZAM", "PSÍQUICO", "AMARILLO", "2", "alakazam"),
 
                 // LÍNEA MACHOP - Fases: BÁSICO, 1, 2
                 new Pokemon("MACHOP", "LUCHA", "GRIS", "BÁSICO", "machop"),
@@ -350,7 +357,7 @@ public class GameActivity extends AppCompatActivity {
                 new Pokemon("GENGAR", "FANTASMA", "VENENO", "MORADO", "2", "gengar"),
 
                 // LÍNEA GROWLITHE (ARCANINE) - Fases: BÁSICO, 1
-                new Pokemon("GROWLITHE", "FUEGO", "MARRÓN", "BÁSICO", "growlithe"),
+                new Pokemon("GROWLITHE", "FUEGO", "NARANJA", "BÁSICO", "growlithe"),
                 new Pokemon("ARCANINE", "FUEGO", "NARANJA", "1", "arcanine"),
 
                 // LÍNEA DRATINI (DRAGONITE) - Fases: BÁSICO, 1, 2
@@ -359,12 +366,12 @@ public class GameActivity extends AppCompatActivity {
                 new Pokemon("DRAGONITE", "DRAGÓN", "VOLADOR", "NARANJA", "2", "dragonite"),
 
                 // LÍNEA MAGIKARP (GYARADOS) - Fases: BÁSICO, 1
-                new Pokemon("MAGIKARP", "AGUA", "AZUL", "BÁSICO", "magikarp"),
+                new Pokemon("MAGIKARP", "AGUA", "ROJO", "BÁSICO", "magikarp"),
                 new Pokemon("GYARADOS", "AGUA", "VOLADOR", "AZUL", "1", "gyarados"),
 
                 // POKÉMON ÚNICOS LEGENDARIOS - Fase: BÁSICO
                 new Pokemon("SNORLAX", "NORMAL", "AZUL", "BÁSICO", "snorlax"),
-                new Pokemon("MEWTWO", "PSÍQUICO", "BLANCO", "BÁSICO", "mewtwo"),
+                new Pokemon("MEWTWO", "PSÍQUICO", "MORADO", "BÁSICO", "mewtwo"),
                 new Pokemon("MEW", "PSÍQUICO", "ROSA", "BÁSICO", "mew")
         );
     }

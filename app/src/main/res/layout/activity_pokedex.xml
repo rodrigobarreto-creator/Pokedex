@@ -5,70 +5,174 @@
     android:id="@+id/pokedex_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@android:color/black"
-    android:padding="8dp"
+    android:background="@drawable/pokedex_background_soft"
+    android:padding="0dp"
     tools:context=".PokedexActivity">
 
-    <!-- Botón regresar -->
-    <ImageButton
-        android:id="@+id/btn_back"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginTop="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_back"/>
-
-    <!-- Botón escáner -->
-    <ImageButton
-        android:id="@+id/btn_scanner"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="8dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_scanner"/>
-
-    <!-- Barra de búsqueda -->
-    <EditText
-        android:id="@+id/search_bar"
+    <!-- Fondo con patrón Pokémon sutil -->
+    <ImageView
         android:layout_width="match_parent"
-        android:layout_marginEnd="50dp"
-        android:layout_height="48dp"
-        android:layout_below="@id/btn_back"
-        android:layout_marginTop="8dp"
-        android:hint="Buscar Pokémon"
-        android:paddingStart="40dp"
-        android:paddingEnd="5dp"
-        android:background="@android:color/white"
-        android:drawableEnd="@drawable/ic_lupa"
-        android:singleLine="true"/>
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:alpha="0.05"
+        android:src="@drawable/pokemon_pattern_soft" />
 
-    <!-- Botón filtro -->
-    <ImageButton
-        android:id="@+id/btn_filter"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
-        android:layout_alignTop="@id/search_bar"
-        android:layout_alignParentEnd="true"
-        android:layout_marginEnd="4dp"
-        android:background="?attr/selectableItemBackgroundBorderless"
-        android:src="@drawable/ic_filter"/>
+    <!-- Header con colores ROJOS -->
+    <LinearLayout
+        android:id="@+id/header_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/header_gradient_soft"
+        android:elevation="6dp"
+        android:padding="16dp">
+
+        <!-- Barra superior con botones -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+
+            <!-- Botón regresar ROJO -->
+            <ImageButton
+                android:id="@+id/btn_back"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/button_circle_soft"
+                android:src="@drawable/ic_back_soft"
+                android:layout_marginEnd="8dp" />
+
+            <!-- Título -->
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Pokédex"
+                android:textColor="#FFFFFF"
+                android:textSize="26sp"
+                android:textStyle="bold"
+                android:gravity="center"
+                android:shadowColor="#88000000"
+                android:shadowDx="1"
+                android:shadowDy="1"
+                android:shadowRadius="2" />
+
+            <!-- Botón escáner ROJO -->
+            <ImageButton
+                android:id="@+id/btn_scanner"
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:background="@drawable/button_circle_soft"
+                android:src="@drawable/ic_scanner_soft"
+                android:layout_marginStart="8dp" />
+
+        </LinearLayout>
+
+        <!-- Barra de búsqueda con estilo ROJO -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/search_background_soft"
+            android:padding="8dp">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_search_soft"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="12dp" />
+
+            <EditText
+                android:id="@+id/search_bar"
+                android:layout_width="0dp"
+                android:layout_height="44dp"
+                android:layout_weight="1"
+                android:hint="Buscar Pokémon..."
+                android:textColor="#D32F2F"
+                android:textColorHint="#88D32F2F"
+                android:background="@android:color/transparent"
+                android:singleLine="true"
+                android:padding="0dp"
+                android:textSize="15sp" />
+
+            <!-- Botón filtro con badge ROJO -->
+            <RelativeLayout
+                android:layout_width="44dp"
+                android:layout_height="44dp"
+                android:layout_marginStart="8dp">
+
+                <ImageButton
+                    android:id="@+id/btn_filter"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:background="@drawable/button_circle_blue_soft"
+                    android:src="@drawable/ic_filter_soft" />
+
+                <!-- Badge para filtros activos -->
+                <TextView
+                    android:id="@+id/filter_badge"
+                    android:layout_width="14dp"
+                    android:layout_height="14dp"
+                    android:layout_alignParentEnd="true"
+                    android:layout_alignParentTop="true"
+                    android:background="@drawable/badge_red_soft"
+                    android:gravity="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="9sp"
+                    android:textStyle="bold"
+                    android:visibility="gone" />
+
+            </RelativeLayout>
+
+        </LinearLayout>
+
+        <!-- Contador de Pokémon -->
+        <TextView
+            android:id="@+id/pokemon_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="0 / 151 Pokémon"
+            android:textColor="#D32F2F"
+            android:textSize="13sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"
+            android:gravity="center"
+            android:background="@drawable/badge_yellow_soft"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="3dp" />
+
+    </LinearLayout>
 
     <!-- SwipeRefreshLayout para actualizar -->
     <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
         android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/search_bar"
-        android:layout_marginTop="8dp">
+        android:layout_below="@id/header_container"
+        android:padding="6dp">
 
-        <!-- RecyclerView para lista de Pokémon -->
+        <!-- RecyclerView -->
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/item_pokemon"/>
+            android:clipToPadding="false"
+            android:padding="4dp"
+            tools:listitem="@layout/item_pokemon_improved"/>
 
     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    <!-- Loading inicial ROJO -->
+    <ProgressBar
+        android:id="@+id/loading_progress"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_centerInParent="true"
+        android:indeterminateTint="#D32F2F"
+        android:visibility="visible" />
+
 </RelativeLayout>

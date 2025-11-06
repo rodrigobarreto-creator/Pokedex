@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="140dp"
+    android:layout_margin="8dp"
+    android:elevation="4dp"
+    app:cardCornerRadius="16dp"
+    app:cardElevation="6dp"
+    app:cardUseCompatPadding="true">
+
+    <!-- Fondo con degradado rojo -->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/pokemon_card_background_soft"
+        android:padding="16dp">
+
+        <!-- Número centrado verticalmente a la izquierda -->
+        <TextView
+            android:id="@+id/textNumber"
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="#001"
+            android:textColor="#D32F2F"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:background="@drawable/number_background_soft"
+            android:paddingVertical="8dp"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true" />
+
+        <!-- Imagen del Pokémon al lado del número -->
+        <ImageView
+            android:id="@+id/imagePokemon"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_toEndOf="@id/textNumber"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:scaleType="fitCenter" />
+
+        <!-- Contenedor de nombre y tipos al lado de la imagen -->
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/imagePokemon"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginStart="8dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
+
+            <!-- Nombre del Pokémon -->
+            <TextView
+                android:id="@+id/textName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Bulbasaur"
+                android:textColor="#D32F2F"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:gravity="start"
+                android:maxLines="1"
+                android:ellipsize="end"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Contenedor de tipos debajo del nombre -->
+            <LinearLayout
+                android:id="@+id/types_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="start" />
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</androidx.cardview.widget.CardView>

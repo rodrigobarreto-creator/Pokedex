@@ -47,6 +47,7 @@ public class GameActivity extends AppCompatActivity {
     private int cellWidth;
     private int cellHeight;
     private int cellTextSize;
+    private int cellDataTextSize; // Tamaño de texto más pequeño para datos
 
     // Anchors para las columnas (ahora se calculan dinámicamente)
     private int[] columnWidths;
@@ -72,17 +73,23 @@ public class GameActivity extends AppCompatActivity {
         int screenWidth = displayMetrics.widthPixels;
 
         // Calcular anchos basados en el ancho de pantalla
-        cellWidth = (int) (screenWidth * 0.18); // 18% del ancho de pantalla para cada columna
+        // FASE es más angosta que las demás columnas
+        int standardWidth = (int) (screenWidth * 0.18);
+        int phaseWidth = (int) (screenWidth * 0.14); // FASE más angosta
+
         cellHeight = (int) (displayMetrics.heightPixels * 0.035);
         cellTextSize = (int) (displayMetrics.widthPixels * 0.012);
+        cellDataTextSize = (int) (displayMetrics.widthPixels * 0.010); // Texto más pequeño para datos
 
         // Asegurar mínimos
-        if (cellWidth < 150) cellWidth = 150;
+        if (standardWidth < 150) standardWidth = 150;
+        if (phaseWidth < 120) phaseWidth = 120;
         if (cellHeight < 25) cellHeight = 25;
         if (cellTextSize < 4) cellTextSize = 4;
+        if (cellDataTextSize < 3) cellDataTextSize = 3;
 
-        // Actualizar columnWidths para usar el mismo ancho para todas las columnas
-        columnWidths = new int[]{cellWidth, cellWidth, cellWidth, cellWidth, cellWidth};
+        // Actualizar columnWidths con FASE más angosta
+        columnWidths = new int[]{standardWidth, standardWidth, standardWidth, standardWidth, phaseWidth};
     }
 
     private void setupGridWithTitles() {
@@ -90,7 +97,7 @@ public class GameActivity extends AppCompatActivity {
         gridLayout.removeAllViews();
         gridLayout.setRowCount(11);
 
-        // PRIMERA FILA: TÍTULOS DE COLUMNAS
+        // PRIMERA FILA: TÍTULOS DE COLUMNAS (texto normal)
         for (int col = 0; col < 5; col++) {
             TextView titleTextView = new TextView(this);
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
@@ -102,7 +109,7 @@ public class GameActivity extends AppCompatActivity {
 
             titleTextView.setLayoutParams(params);
             titleTextView.setText(columnTitles[col]);
-            titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, cellTextSize);
+            titleTextView.setTextSize(TypedValue.COMPLEX_UNIT_SP, cellTextSize); // Tamaño normal para títulos
             titleTextView.setTextColor(Color.WHITE);
             titleTextView.setBackgroundColor(ContextCompat.getColor(this, R.color.pokemon_red));
             titleTextView.setGravity(android.view.Gravity.CENTER);
@@ -112,7 +119,7 @@ public class GameActivity extends AppCompatActivity {
             gridLayout.addView(titleTextView);
         }
 
-        // FILAS 1-10: DATOS DEL JUEGO
+        // FILAS 1-10: DATOS DEL JUEGO (texto más pequeño)
         for (int row = 1; row <= MAX_ATTEMPTS; row++) {
             TextView[] rowViews = new TextView[5];
             for (int col = 0; col < 5; col++) {
@@ -125,7 +132,7 @@ public class GameActivity extends AppCompatActivity {
                 params.setMargins(1, 1, 1, 1);
 
                 textView.setLayoutParams(params);
-                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, cellTextSize);
+                textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, cellDataTextSize); // Texto más pequeño para datos
                 textView.setBackgroundColor(Color.WHITE);
                 textView.setTextColor(Color.BLACK);
                 textView.setGravity(android.view.Gravity.CENTER);

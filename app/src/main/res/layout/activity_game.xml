@@ -109,11 +109,12 @@
             <!-- SOLO EL GRIDLAYOUT - LOS TÍTULOS SE AGREGARÁN PROGRAMÁTICAMENTE -->
             <GridLayout
                 android:id="@+id/gridLayout"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:columnCount="5"
-                android:rowCount="11" /> <!-- 10 filas de datos + 1 fila de títulos -->
+                android:rowCount="11"
+                android:padding="8dp" /> <!-- 10 filas de datos + 1 fila de títulos -->
 
             <!-- Imagen inferior -->
             <ImageView

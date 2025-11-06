@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/pokedex_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -32,7 +33,7 @@
     <EditText
         android:id="@+id/search_bar"
         android:layout_width="match_parent"
-        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
         android:layout_height="48dp"
         android:layout_below="@id/btn_back"
         android:layout_marginTop="8dp"
@@ -54,12 +55,20 @@
         android:background="?attr/selectableItemBackgroundBorderless"
         android:src="@drawable/ic_filter"/>
 
-    <!-- RecyclerView para lista de Pokémon -->
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerView"
+    <!-- SwipeRefreshLayout para actualizar -->
+    <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/search_bar"
-        android:layout_marginTop="8dp"
-        tools:listitem="@layout/item_pokemon"/>
+        android:layout_marginTop="8dp">
+
+        <!-- RecyclerView para lista de Pokémon -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_pokemon"/>
+
+    </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
 </RelativeLayout>

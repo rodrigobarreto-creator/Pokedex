@@ -48,8 +48,8 @@ public class GameActivity extends AppCompatActivity {
     private int cellHeight;
     private int cellTextSize;
 
-    // Anchors para las columnas
-    private int[] columnWidths = {180, 160, 160, 160, 140};
+    // Anchors para las columnas (ahora se calculan dinámicamente)
+    private int[] columnWidths;
     private String[] columnTitles = {"NOMBRE", "TIPO 1", "TIPO 2", "COLOR", "FASE"};
 
     @Override
@@ -69,11 +69,20 @@ public class GameActivity extends AppCompatActivity {
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
 
+        int screenWidth = displayMetrics.widthPixels;
+
+        // Calcular anchos basados en el ancho de pantalla
+        cellWidth = (int) (screenWidth * 0.18); // 18% del ancho de pantalla para cada columna
         cellHeight = (int) (displayMetrics.heightPixels * 0.035);
         cellTextSize = (int) (displayMetrics.widthPixels * 0.012);
 
+        // Asegurar mínimos
+        if (cellWidth < 150) cellWidth = 150;
         if (cellHeight < 25) cellHeight = 25;
         if (cellTextSize < 4) cellTextSize = 4;
+
+        // Actualizar columnWidths para usar el mismo ancho para todas las columnas
+        columnWidths = new int[]{cellWidth, cellWidth, cellWidth, cellWidth, cellWidth};
     }
 
     private void setupGridWithTitles() {
@@ -87,7 +96,7 @@ public class GameActivity extends AppCompatActivity {
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.rowSpec = GridLayout.spec(0);
             params.columnSpec = GridLayout.spec(col);
-            params.width = columnWidths[col];
+            params.width = columnWidths != null && col < columnWidths.length ? columnWidths[col] : cellWidth;
             params.height = cellHeight;
             params.setMargins(1, 1, 1, 1);
 
@@ -111,7 +120,7 @@ public class GameActivity extends AppCompatActivity {
                 GridLayout.LayoutParams params = new GridLayout.LayoutParams();
                 params.rowSpec = GridLayout.spec(row);
                 params.columnSpec = GridLayout.spec(col);
-                params.width = columnWidths[col];
+                params.width = columnWidths != null && col < columnWidths.length ? columnWidths[col] : cellWidth;
                 params.height = cellHeight;
                 params.setMargins(1, 1, 1, 1);
 

@@ -300,7 +300,7 @@ public class GameActivity extends AppCompatActivity {
                 // LÍNEA CATERPIE - Fases: BÁSICO, 1, 2
                 new Pokemon("CATERPIE", "BICHO", "VERDE", "BÁSICO", "caterpie"),
                 new Pokemon("METAPOD", "BICHO", "VERDE", "1", "metapod"),
-                new Pokemon("BUTTERFREE", "BICHO", "VOLADOR", "BLANCO", "2", "butterfree"),
+                new Pokemon("BUTTERFREE", "BICHO", "VOLADOR", "MORADO", "2", "butterfree"),
 
                 // LÍNEA PIDGEY - Fases: BÁSICO, 1, 2
                 new Pokemon("PIDGEY", "NORMAL", "VOLADOR", "MARRÓN", "BÁSICO", "pidgey"),
@@ -317,7 +317,7 @@ public class GameActivity extends AppCompatActivity {
 
                 // LÍNEA PIKACHU - Fases: BÁSICO, 1
                 new Pokemon("PIKACHU", "ELÉCTRICO", "AMARILLO", "BÁSICO", "pikachu"),
-                new Pokemon("RAICHU", "ELÉCTRICO", "AMARILLO", "1", "raichu"),
+                new Pokemon("RAICHU", "ELÉCTRICO", "NARANJA", "1", "raichu"),
 
                 // LÍNEA CLEFAIRY - Fases: BÁSICO, 1
                 new Pokemon("CLEFAIRY", "HADA", "ROSA", "BÁSICO", "clefairy"),
@@ -334,12 +334,12 @@ public class GameActivity extends AppCompatActivity {
                 // LÍNEA ODDISH - Fases: BÁSICO, 1, 2
                 new Pokemon("ODDISH", "PLANTA", "VENENO", "AZUL", "BÁSICO", "oddish"),
                 new Pokemon("GLOOM", "PLANTA", "VENENO", "AZUL", "1", "gloom"),
-                new Pokemon("VILEPLUME", "PLANTA", "VENENO", "ROJO", "2", "vileplume"),
+                new Pokemon("VILEPLUME", "PLANTA", "VENENO", "AZUL", "2", "vileplume"),
 
                 // LÍNEA ABRA - Fases: BÁSICO, 1, 2
-                new Pokemon("ABRA", "PSÍQUICO", "MARRÓN", "BÁSICO", "abra"),
-                new Pokemon("KADABRA", "PSÍQUICO", "MARRÓN", "1", "kadabra"),
-                new Pokemon("ALAKAZAM", "PSÍQUICO", "MARRÓN", "2", "alakazam"),
+                new Pokemon("ABRA", "PSÍQUICO", "AMARILLO", "BÁSICO", "abra"),
+                new Pokemon("KADABRA", "PSÍQUICO", "AMARILLO", "1", "kadabra"),
+                new Pokemon("ALAKAZAM", "PSÍQUICO", "AMARILLO", "2", "alakazam"),
 
                 // LÍNEA MACHOP - Fases: BÁSICO, 1, 2
                 new Pokemon("MACHOP", "LUCHA", "GRIS", "BÁSICO", "machop"),
@@ -357,7 +357,7 @@ public class GameActivity extends AppCompatActivity {
                 new Pokemon("GENGAR", "FANTASMA", "VENENO", "MORADO", "2", "gengar"),
 
                 // LÍNEA GROWLITHE (ARCANINE) - Fases: BÁSICO, 1
-                new Pokemon("GROWLITHE", "FUEGO", "MARRÓN", "BÁSICO", "growlithe"),
+                new Pokemon("GROWLITHE", "FUEGO", "NARANJA", "BÁSICO", "growlithe"),
                 new Pokemon("ARCANINE", "FUEGO", "NARANJA", "1", "arcanine"),
 
                 // LÍNEA DRATINI (DRAGONITE) - Fases: BÁSICO, 1, 2
@@ -366,12 +366,12 @@ public class GameActivity extends AppCompatActivity {
                 new Pokemon("DRAGONITE", "DRAGÓN", "VOLADOR", "NARANJA", "2", "dragonite"),
 
                 // LÍNEA MAGIKARP (GYARADOS) - Fases: BÁSICO, 1
-                new Pokemon("MAGIKARP", "AGUA", "AZUL", "BÁSICO", "magikarp"),
+                new Pokemon("MAGIKARP", "AGUA", "ROJO", "BÁSICO", "magikarp"),
                 new Pokemon("GYARADOS", "AGUA", "VOLADOR", "AZUL", "1", "gyarados"),
 
                 // POKÉMON ÚNICOS LEGENDARIOS - Fase: BÁSICO
                 new Pokemon("SNORLAX", "NORMAL", "AZUL", "BÁSICO", "snorlax"),
-                new Pokemon("MEWTWO", "PSÍQUICO", "BLANCO", "BÁSICO", "mewtwo"),
+                new Pokemon("MEWTWO", "PSÍQUICO", "MORADO", "BÁSICO", "mewtwo"),
                 new Pokemon("MEW", "PSÍQUICO", "ROSA", "BÁSICO", "mew")
         );
     }

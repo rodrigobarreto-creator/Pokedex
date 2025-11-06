@@ -3,10 +3,13 @@ package com.example.interfazprueba;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.speech.tts.TextToSpeech;
+import android.speech.tts.Voice;
+
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -221,12 +224,28 @@ public class PokemonDetailActivity extends AppCompatActivity implements TextToSp
         if (status == TextToSpeech.SUCCESS) {
             int result = tts.setLanguage(new Locale("es", "ES"));
             if (result != TextToSpeech.LANG_MISSING_DATA && result != TextToSpeech.LANG_NOT_SUPPORTED) {
-                if (openedFromScanner && !flavorTextForSpeech.isEmpty()) {
-                    speak(flavorTextForSpeech);
+
+                // VOZ ESTILO ROBOT
+                tts.setPitch(1.4f);       // tono más agudo (metálico)
+                tts.setSpeechRate(1);  // más rápida
+            }
+
+            // Si querés forzar una voz sintética
+            for (Voice v : tts.getVoices()) {
+                if (v.getName().toLowerCase().contains("x-robot") ||
+                        v.getName().toLowerCase().contains("rmk") ||
+                        v.getName().toLowerCase().contains("es")) {
+                    tts.setVoice(v);
+                    break;
                 }
+            }
+
+            if (openedFromScanner && !flavorTextForSpeech.isEmpty()) {
+                speak(flavorTextForSpeech);
             }
         }
     }
+
 
     private void speak(String text) {
         if (tts != null) {

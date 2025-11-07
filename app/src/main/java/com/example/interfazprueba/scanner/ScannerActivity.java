@@ -52,7 +52,6 @@ public class ScannerActivity extends AppCompatActivity {
 
     private ImageCapture imageCapture;
     private ProfesorOakService profesorOakService;
-
     private static final String TAG = "ScannerActivity";
 
     @Override
@@ -91,7 +90,6 @@ public class ScannerActivity extends AppCompatActivity {
     private void startCamera() {
         try {
             ListenableFuture<ProcessCameraProvider> cameraProviderFuture = ProcessCameraProvider.getInstance(this);
-
             cameraProviderFuture.addListener(() -> {
                 try {
                     ProcessCameraProvider cameraProvider = cameraProviderFuture.get();
@@ -176,13 +174,25 @@ public class ScannerActivity extends AppCompatActivity {
         runOnUiThread(() -> {
             try {
                 JSONObject json = new JSONObject(predictionJson);
-                String pokemonName = json.getString("pokemon");
-                double confidence = json.getDouble("confidence");
+
+                String pokemonName = json.optString("pokemon", json.optString("class", ""));
+                double confidence = json.optDouble("confidence", 0);
+
+                // 🔧 Limpiar nombre si contiene número o guion
+                if (pokemonName.contains(" - ")) {
+                    pokemonName = pokemonName.split(" - ")[1].trim();
+                }
+
+                if (pokemonName.isEmpty()) {
+                    textResult.setText("No se detectó ningún Pokémon.");
+                    return;
+                }
 
                 textResult.setText("Detectado: " + pokemonName + " (" + confidence + "%)");
+                Log.d(TAG, "Pokémon detectado: " + pokemonName);
 
                 Intent intent = new Intent(ScannerActivity.this, PokemonDetailActivity.class);
-                intent.putExtra("pokemonName", pokemonName.toLowerCase());
+                intent.putExtra("pokemonName", pokemonName.toLowerCase().trim());
                 intent.putExtra("openedFromScanner", true);
                 startActivity(intent);
 
@@ -192,6 +202,7 @@ public class ScannerActivity extends AppCompatActivity {
             }
         });
     }
+
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,

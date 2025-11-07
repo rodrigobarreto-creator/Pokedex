@@ -2,11 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.interfazprueba">
 
-
-    <!-- Permisos requeridos -->
+    <!-- Permisos actualizados -->
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -19,9 +17,10 @@
         android:roundIcon="@drawable/pokemon_logo"
         android:supportsRtl="true"
         android:theme="@style/Theme.InterfazPrueba"
+        android:usesCleartextTraffic="true"
         android:networkSecurityConfig="@xml/network_security_config">
 
-        <!-- Actividad principal (menú) -->
+        <!-- Actividad principal -->
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -31,20 +30,16 @@
             </intent-filter>
         </activity>
 
-        <!-- Pokédex -->
+        <!-- Otras actividades -->
         <activity android:name=".PokedexActivity" />
-
-        <!-- Detalle del Pokémon -->
         <activity android:name=".PokemonDetailActivity" />
-
-        <!-- Juego y resultados -->
         <activity android:name=".GameActivity" />
         <activity android:name=".ResultActivity" />
 
         <!-- Escáner -->
         <activity
             android:name=".scanner.ScannerActivity"
-            android:exported="false" />
-
+            android:exported="true"
+            android:screenOrientation="portrait" />
     </application>
 </manifest>

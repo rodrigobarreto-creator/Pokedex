@@ -18,7 +18,7 @@
         android:contentDescription="@string/app_name"
         android:src="@drawable/logo1" />
 
-    <!-- BOTÓN ENCICLOPEDIA (grande, centrado) -->
+    <!-- BOTÓN ENCICLOPEDIA -->
     <Button
         android:id="@+id/btnEnciclopedia"
         android:layout_width="250dp"
@@ -33,7 +33,7 @@
         android:fontFamily="sans-serif-medium"
         android:elevation="6dp" />
 
-    <!-- BOTÓN SCANNER (izquierda) -->
+    <!-- BOTÓN SCANNER  -->
     <Button
         android:id="@+id/btnScanner"
         android:layout_width="150dp"
@@ -48,7 +48,7 @@
         android:textColor="#FFFFFF"
         android:elevation="5dp" />
 
-    <!-- BOTÓN POKEDDLE (derecha) -->
+    <!-- BOTÓN POKEDDLE -->
     <Button
         android:id="@+id/btnPokeddle"
         android:layout_width="150dp"

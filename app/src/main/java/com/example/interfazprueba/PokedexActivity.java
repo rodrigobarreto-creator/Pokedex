@@ -56,7 +56,6 @@ public class PokedexActivity extends AppCompatActivity {
     private int loadedCount = 0;
     private final int TOTAL_POKEMON = 151;
 
-    // Colores para tipos Pokémon (versiones suaves)
     private Map<String, Integer> typeColors = new HashMap<>();
 
     @Override
@@ -207,7 +206,6 @@ public class PokedexActivity extends AppCompatActivity {
 
         dialog.show();
 
-        // Personalizar botones
         dialog.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(this, R.color.pokemon_red));
         dialog.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.GRAY);
         dialog.getButton(AlertDialog.BUTTON_NEUTRAL).setTextColor(Color.RED);
@@ -364,7 +362,6 @@ public class PokedexActivity extends AppCompatActivity {
                         }
                         pokemon.setImageUrl(img);
 
-                        // Insertar ordenadamente
                         int left = 0, right = pokemonList.size();
                         while (left < right) {
                             int mid = (left + right) / 2;
@@ -395,7 +392,6 @@ public class PokedexActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonObject> call, Throwable t) {
-                // Error silencioso para mejor UX
             }
         });
     }

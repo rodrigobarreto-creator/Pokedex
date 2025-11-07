@@ -59,10 +59,8 @@ public class ResultActivity extends AppCompatActivity {
         pokemonColor.setText("Color: " + color);
         pokemonGeneration.setText("Generación: " + generation);
 
-        // Asignar color según el tipo del Pokémon
         setTypeColor(pokemonType, typeDisplay);
 
-        // Cargar la imagen del Pokémon
         if (imageName != null) {
             int resourceId = getResources().getIdentifier(
                     imageName,

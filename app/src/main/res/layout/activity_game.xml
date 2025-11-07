@@ -4,7 +4,6 @@
     android:layout_height="match_parent"
     android:background="@android:color/black">
 
-    <!-- Imagen de fondo principal -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -12,7 +11,6 @@
         android:alpha="0.2"
         android:src="@drawable/pokemon_logo" />
 
-    <!-- Botón Volver SIN FONDO -->
     <Button
         android:id="@+id/backButton"
         android:layout_width="wrap_content"
@@ -55,7 +53,7 @@
                 android:shadowDy="2"
                 android:shadowRadius="4" />
 
-            <!-- Contador de intentos CON FORMATO AZUL -->
+            <!-- Contador de intentos -->
             <TextView
                 android:id="@+id/attemptsTextView"
                 android:layout_width="wrap_content"
@@ -106,7 +104,7 @@
                 android:alpha="0.9"
                 android:visibility="visible" />
 
-            <!-- SOLO EL GRIDLAYOUT - LOS TÍTULOS SE AGREGARÁN PROGRAMÁTICAMENTE -->
+            <!-- SOLO EL GRIDLAYOUT -->
             <GridLayout
                 android:id="@+id/gridLayout"
                 android:layout_width="match_parent"
@@ -114,7 +112,7 @@
                 android:layout_gravity="center"
                 android:columnCount="5"
                 android:rowCount="11"
-                android:padding="8dp" /> <!-- 10 filas de datos + 1 fila de títulos -->
+                android:padding="8dp" />
 
             <!-- Imagen inferior -->
             <ImageView

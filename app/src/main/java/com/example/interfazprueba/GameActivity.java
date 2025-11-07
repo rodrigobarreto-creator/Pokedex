@@ -88,7 +88,6 @@ public class GameActivity extends AppCompatActivity {
         if (cellTextSize < 4) cellTextSize = 4;
         if (cellDataTextSize < 3) cellDataTextSize = 3;
 
-        // Actualizar columnWidths con FASE más angosta
         columnWidths = new int[]{standardWidth, standardWidth, standardWidth, standardWidth, phaseWidth};
     }
 
@@ -119,7 +118,7 @@ public class GameActivity extends AppCompatActivity {
             gridLayout.addView(titleTextView);
         }
 
-        // FILAS 1-10: DATOS DEL JUEGO (texto más pequeño)
+        // FILAS 1-10: DATOS DEL JUEGO
         for (int row = 1; row <= MAX_ATTEMPTS; row++) {
             TextView[] rowViews = new TextView[5];
             for (int col = 0; col < 5; col++) {
@@ -215,7 +214,7 @@ public class GameActivity extends AppCompatActivity {
             currentRow[3].setTextColor(Color.DKGRAY);
         }
 
-        // Fase (reemplaza Generación)
+        // Fase
         if (result.pokemonPhase != null) {
             currentRow[4].setText(result.pokemonPhase);
             if (result.isCorrectPhase) {
@@ -282,94 +281,55 @@ public class GameActivity extends AppCompatActivity {
 
     private void initializePokemonList() {
         pokemonList = Arrays.asList(
-                // LÍNEA BULBASAUR - Fases: BÁSICO, 1, 2
                 new Pokemon("BULBASAUR", "PLANTA", "VENENO", "VERDE", "BÁSICO", "bulbasaur"),
                 new Pokemon("IVYSAUR", "PLANTA", "VENENO", "VERDE", "1", "ivysaur"),
                 new Pokemon("VENUSAUR", "PLANTA", "VENENO", "VERDE", "2", "venusaur"),
-
-                // LÍNEA CHARMANDER - Fases: BÁSICO, 1, 2
                 new Pokemon("CHARMANDER", "FUEGO", "NARANJA", "BÁSICO", "charmander"),
                 new Pokemon("CHARMELEON", "FUEGO", "ROJO", "1", "charmeleon"),
                 new Pokemon("CHARIZARD", "FUEGO", "VOLADOR", "NARANJA", "2", "charizard"),
-
-                // LÍNEA SQUIRTLE - Fases: BÁSICO, 1, 2
                 new Pokemon("SQUIRTLE", "AGUA", "AZUL", "BÁSICO", "squirtle"),
                 new Pokemon("WARTORTLE", "AGUA", "AZUL", "1", "wartortle"),
                 new Pokemon("BLASTOISE", "AGUA", "AZUL", "2", "blastoise"),
-
-                // LÍNEA CATERPIE - Fases: BÁSICO, 1, 2
                 new Pokemon("CATERPIE", "BICHO", "VERDE", "BÁSICO", "caterpie"),
                 new Pokemon("METAPOD", "BICHO", "VERDE", "1", "metapod"),
                 new Pokemon("BUTTERFREE", "BICHO", "VOLADOR", "MORADO", "2", "butterfree"),
-
-                // LÍNEA PIDGEY - Fases: BÁSICO, 1, 2
                 new Pokemon("PIDGEY", "NORMAL", "VOLADOR", "MARRÓN", "BÁSICO", "pidgey"),
                 new Pokemon("PIDGEOTTO", "NORMAL", "VOLADOR", "MARRÓN", "1", "pidgeotto"),
                 new Pokemon("PIDGEOT", "NORMAL", "VOLADOR", "MARRÓN", "2", "pidgeot"),
-
-                // LÍNEA RATTATA - Fases: BÁSICO, 1
                 new Pokemon("RATTATA", "NORMAL", "MORADO", "BÁSICO", "rattata"),
                 new Pokemon("RATICATE", "NORMAL", "MARRÓN", "1", "raticate"),
-
-                // LÍNEA EKANS - Fases: BÁSICO, 1
                 new Pokemon("EKANS", "VENENO", "MORADO", "BÁSICO", "ekans"),
                 new Pokemon("ARBOK", "VENENO", "MORADO", "1", "arbok"),
-
-                // LÍNEA PIKACHU - Fases: BÁSICO, 1
                 new Pokemon("PIKACHU", "ELÉCTRICO", "AMARILLO", "BÁSICO", "pikachu"),
                 new Pokemon("RAICHU", "ELÉCTRICO", "NARANJA", "1", "raichu"),
-
-                // LÍNEA CLEFAIRY - Fases: BÁSICO, 1
                 new Pokemon("CLEFAIRY", "HADA", "ROSA", "BÁSICO", "clefairy"),
                 new Pokemon("CLEFABLE", "HADA", "ROSA", "1", "clefable"),
-
-                // LÍNEA JIGGLYPUFF - Fases: BÁSICO, 1
                 new Pokemon("JIGGLYPUFF", "HADA", "ROSA", "BÁSICO", "jigglypuff"),
                 new Pokemon("WIGGLYTUFF", "HADA", "ROSA", "1", "wigglytuff"),
-
-                // LÍNEA ZUBAT - Fases: BÁSICO, 1
                 new Pokemon("ZUBAT", "VENENO", "VOLADOR", "MORADO", "BÁSICO", "zubat"),
                 new Pokemon("GOLBAT", "VENENO", "VOLADOR", "MORADO", "1", "golbat"),
-
-                // LÍNEA ODDISH - Fases: BÁSICO, 1, 2
                 new Pokemon("ODDISH", "PLANTA", "VENENO", "AZUL", "BÁSICO", "oddish"),
                 new Pokemon("GLOOM", "PLANTA", "VENENO", "AZUL", "1", "gloom"),
                 new Pokemon("VILEPLUME", "PLANTA", "VENENO", "AZUL", "2", "vileplume"),
-
-                // LÍNEA ABRA - Fases: BÁSICO, 1, 2
                 new Pokemon("ABRA", "PSÍQUICO", "AMARILLO", "BÁSICO", "abra"),
                 new Pokemon("KADABRA", "PSÍQUICO", "AMARILLO", "1", "kadabra"),
                 new Pokemon("ALAKAZAM", "PSÍQUICO", "AMARILLO", "2", "alakazam"),
-
-                // LÍNEA MACHOP - Fases: BÁSICO, 1, 2
                 new Pokemon("MACHOP", "LUCHA", "GRIS", "BÁSICO", "machop"),
                 new Pokemon("MACHOKE", "LUCHA", "GRIS", "1", "machoke"),
                 new Pokemon("MACHAMP", "LUCHA", "GRIS", "2", "machamp"),
-
-                // LÍNEA GEODUDE - Fases: BÁSICO, 1, 2
                 new Pokemon("GEODUDE", "ROCA", "TIERRA", "MARRÓN", "BÁSICO", "geodude"),
                 new Pokemon("GRAVELER", "ROCA", "TIERRA", "MARRÓN", "1", "graveler"),
                 new Pokemon("GOLEM", "ROCA", "TIERRA", "MARRÓN", "2", "golem"),
-
-                // LÍNEA GASTLY - Fases: BÁSICO, 1, 2
                 new Pokemon("GASTLY", "FANTASMA", "VENENO", "MORADO", "BÁSICO", "gastly"),
                 new Pokemon("HAUNTER", "FANTASMA", "VENENO", "MORADO", "1", "haunter"),
                 new Pokemon("GENGAR", "FANTASMA", "VENENO", "MORADO", "2", "gengar"),
-
-                // LÍNEA GROWLITHE (ARCANINE) - Fases: BÁSICO, 1
                 new Pokemon("GROWLITHE", "FUEGO", "NARANJA", "BÁSICO", "growlithe"),
                 new Pokemon("ARCANINE", "FUEGO", "NARANJA", "1", "arcanine"),
-
-                // LÍNEA DRATINI (DRAGONITE) - Fases: BÁSICO, 1, 2
                 new Pokemon("DRATINI", "DRAGÓN", "AZUL", "BÁSICO", "dratini"),
                 new Pokemon("DRAGONAIR", "DRAGÓN", "AZUL", "1", "dragonair"),
                 new Pokemon("DRAGONITE", "DRAGÓN", "VOLADOR", "NARANJA", "2", "dragonite"),
-
-                // LÍNEA MAGIKARP (GYARADOS) - Fases: BÁSICO, 1
                 new Pokemon("MAGIKARP", "AGUA", "ROJO", "BÁSICO", "magikarp"),
                 new Pokemon("GYARADOS", "AGUA", "VOLADOR", "AZUL", "1", "gyarados"),
-
-                // POKÉMON ÚNICOS LEGENDARIOS - Fase: BÁSICO
                 new Pokemon("SNORLAX", "NORMAL", "AZUL", "BÁSICO", "snorlax"),
                 new Pokemon("MEWTWO", "PSÍQUICO", "MORADO", "BÁSICO", "mewtwo"),
                 new Pokemon("MEW", "PSÍQUICO", "ROSA", "BÁSICO", "mew")
@@ -479,7 +439,6 @@ public class GameActivity extends AppCompatActivity {
         GuessResult result = new GuessResult();
         result.input = input;
 
-        // Verificar si es un Pokémon
         Pokemon guessedPokemon = findPokemon(input);
         if (guessedPokemon != null) {
             result.type = "POKÉMON";
@@ -498,7 +457,6 @@ public class GameActivity extends AppCompatActivity {
             return result;
         }
 
-        // Verificar si es un tipo
         if (isValidType(input)) {
             result.type = "TIPO";
             result.isCorrectType1 = input.equals(targetPokemon.getType1());
@@ -508,7 +466,6 @@ public class GameActivity extends AppCompatActivity {
             return result;
         }
 
-        // Verificar si es un color
         if (isValidColor(input)) {
             result.type = "COLOR";
             result.isCorrectColor = input.equals(targetPokemon.getColor());
@@ -516,7 +473,6 @@ public class GameActivity extends AppCompatActivity {
             return result;
         }
 
-        // Verificar si es una fase
         if (isValidPhase(input)) {
             result.type = "FASE";
             result.isCorrectPhase = input.equals(targetPokemon.getGeneration()); // Cambiado a Fase
@@ -638,12 +594,12 @@ public class GameActivity extends AppCompatActivity {
         String pokemonType1;
         String pokemonType2;
         String pokemonColor;
-        String pokemonPhase; // Cambiado de pokemonGeneration a pokemonPhase
+        String pokemonPhase;
         boolean isCorrectPokemon = false;
         boolean isCorrectType1 = false;
         boolean isCorrectType2 = false;
         boolean isCorrectColor = false;
-        boolean isCorrectPhase = false; // Cambiado de isCorrectGeneration a isCorrectPhase
+        boolean isCorrectPhase = false;
 
         boolean isCorrectPokemon() {
             return isCorrectPokemon;

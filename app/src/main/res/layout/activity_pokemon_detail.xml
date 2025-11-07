@@ -6,7 +6,7 @@
     android:background="@drawable/pokedex_background_soft"
     android:padding="0dp">
 
-    <!-- Fondo con patrón sutil -->
+    <!-- Fondo -->
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -14,7 +14,7 @@
         android:alpha="0.05"
         android:src="@drawable/pokemon_pattern_soft" />
 
-    <!-- Header con gradiente rojo -->
+    <!-- Header -->
     <LinearLayout
         android:id="@+id/header_container"
         android:layout_width="match_parent"

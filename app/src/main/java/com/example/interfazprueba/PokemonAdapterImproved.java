@@ -51,13 +51,10 @@ public class PokemonAdapterImproved extends RecyclerView.Adapter<PokemonAdapterI
     public void onBindViewHolder(@NonNull PokemonViewHolder holder, int position) {
         PokemonFull pokemon = pokemonList.get(position);
 
-        // Configurar número
         holder.textNumber.setText("#" + String.format("%03d", pokemon.getNumber()));
 
-        // Configurar nombre
         holder.textName.setText(pokemon.getName());
 
-        // Configurar imagen
         if (pokemon.getImageUrl() != null && !pokemon.getImageUrl().isEmpty()) {
             Glide.with(context)
                     .load(pokemon.getImageUrl())
@@ -67,7 +64,6 @@ public class PokemonAdapterImproved extends RecyclerView.Adapter<PokemonAdapterI
             holder.imagePokemon.setImageResource(android.R.drawable.ic_menu_gallery);
         }
 
-        // Configurar tipos
         holder.typesContainer.removeAllViews();
         if (pokemon.getTypes() != null && !pokemon.getTypes().isEmpty()) {
             for (String type : pokemon.getTypes()) {
@@ -78,7 +74,6 @@ public class PokemonAdapterImproved extends RecyclerView.Adapter<PokemonAdapterI
                 typeView.setPadding(16, 8, 16, 8);
                 typeView.setTypeface(null, android.graphics.Typeface.BOLD);
 
-                // Crear fondo redondeado con color del tipo
                 GradientDrawable typeBackground = new GradientDrawable();
                 typeBackground.setShape(GradientDrawable.RECTANGLE);
                 typeBackground.setCornerRadius(12f);
@@ -98,14 +93,12 @@ public class PokemonAdapterImproved extends RecyclerView.Adapter<PokemonAdapterI
             }
         }
 
-        // Configurar click listener en toda la tarjeta
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(pokemon);
             }
         });
 
-        // Agregar animación
         holder.itemView.setAlpha(0f);
         holder.itemView.animate()
                 .alpha(1f)

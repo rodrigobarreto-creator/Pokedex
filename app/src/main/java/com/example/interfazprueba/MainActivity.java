@@ -18,12 +18,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Referencias a los botones
         btnEnciclopedia = findViewById(R.id.btnEnciclopedia);
         btnPokeddle = findViewById(R.id.btnPokeddle);
         btnScanner = findViewById(R.id.btnScanner);
 
-        // Abrir enciclopedia (PokedexActivity)
         btnEnciclopedia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -32,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Abrir el juego (Pokeddle)
         btnPokeddle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -41,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        // Abrir el escáner (ScannerActivity)
         btnScanner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
